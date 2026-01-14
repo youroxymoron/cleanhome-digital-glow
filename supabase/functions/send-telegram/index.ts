@@ -6,7 +6,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const TELEGRAM_CHAT_ID = "-2001547391";
+const TELEGRAM_CHAT_ID = "-1002001547391";
 
 serve(async (req: Request): Promise<Response> => {
   console.log("==== send-telegram function called ====");
