@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const contactInfo = [
   {
@@ -42,19 +43,39 @@ const contactInfo = [
 
 const ContactSection = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Заявка отправлена!",
-      description: "Мы свяжемся с вами в ближайшее время.",
-    });
-    setFormData({ name: "", phone: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("send-telegram", {
+        body: formData,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Заявка отправлена!",
+        description: "Мы свяжемся с вами в ближайшее время.",
+      });
+      setFormData({ name: "", phone: "", message: "" });
+    } catch (error: any) {
+      console.error("Error sending form:", error);
+      toast({
+        title: "Ошибка отправки",
+        description: "Попробуйте позвонить нам напрямую",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -131,9 +152,9 @@ const ContactSection = () => {
                       }
                     />
                   </div>
-                  <Button type="submit" size="lg" className="w-full">
+                  <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
                     <Send className="w-4 h-4 mr-2" />
-                    Отправить заявку
+                    {isSubmitting ? "Отправка..." : "Отправить заявку"}
                   </Button>
                 </form>
               </CardContent>
