@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std/http/server.ts";
+console.log("🚀 LOVABLE DEPLOY CHECK v3 — 2026-01-14");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
