@@ -22,8 +22,8 @@ import {
   Phone,
   Mail,
   MapPin,
-  Image as ImageIcon
 } from "lucide-react";
+import { ImageUpload } from "@/components/ImageUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -587,8 +587,18 @@ function ServiceEditor({ service, onSave, onCancel }: ServiceEditorProps) {
               onChange={(e) => setEditService({ ...editService, sort_order: parseInt(e.target.value) })}
             />
           </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Изображение услуги</label>
+          <ImageUpload
+            value={editService.image_url}
+            onChange={(url) => setEditService({ ...editService, image_url: url })}
+            folder="services"
+          />
+        </div>
+        <div className="hidden">
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">URL изображения</label>
+            <label className="block text-sm font-medium text-foreground mb-2">URL изображения (устаревшее)</label>
             <Input
               value={editService.image_url || ""}
               onChange={(e) => setEditService({ ...editService, image_url: e.target.value || null })}
