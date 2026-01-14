@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useServices, Service } from "@/hooks/useServices";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, Building2, Sofa, SprayCan, Sparkles, HardHat
@@ -47,6 +48,12 @@ const ServicePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title={`${service.title} — Clean House Донецк`}
+        description={service.description}
+        image={service.image_url || undefined}
+        type="service"
+      />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">

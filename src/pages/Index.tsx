@@ -4,16 +4,26 @@ import ServicesSection from "@/components/ServicesSection";
 import WhyUsSection from "@/components/WhyUsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead />
       <Header />
       <main>
-        <HeroSection />
-        <ServicesSection />
-        <WhyUsSection />
-        <ContactSection />
+        <section id="hero">
+          <HeroSection />
+        </section>
+        <section id="services" aria-label="Наши услуги">
+          <ServicesSection />
+        </section>
+        <section id="about" aria-label="Почему мы">
+          <WhyUsSection />
+        </section>
+        <section id="contacts" aria-label="Контакты">
+          <ContactSection />
+        </section>
       </main>
       <Footer />
     </div>
