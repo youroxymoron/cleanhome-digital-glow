@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, Home, Building2, Sofa, SprayCan, Sparkles, HardHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useServices, Service } from "@/hooks/useServices";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Home, Building2, Sofa, SprayCan, Sparkles, HardHat, ArrowLeft, CheckCircle } from "lucide-react";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, Building2, Sofa, SprayCan, Sparkles, HardHat

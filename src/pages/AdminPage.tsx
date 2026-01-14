@@ -158,9 +158,9 @@ const AdminPage = () => {
     }
   };
 
-  const handleUpdateSiteContent = async (blockKey: string, content: Record<string, string>) => {
+  const handleUpdateSiteContent = async (blockKey: string, content: Record<string, unknown>) => {
     try {
-      await updateSiteContent.mutateAsync({ blockKey, content: content as unknown as import("@/integrations/supabase/types").Json });
+      await updateSiteContent.mutateAsync({ blockKey, content: content as import("@/integrations/supabase/types").Json });
       toast({ title: "Контент обновлён!" });
     } catch (error) {
       toast({ title: "Ошибка сохранения", variant: "destructive" });
@@ -428,17 +428,17 @@ const AdminPage = () => {
 interface ContentEditorProps {
   title: string;
   blockKey: string;
-  content: Record<string, string> | undefined;
+  content: HeroContent | HeaderContent | FooterContent | undefined;
   fields: { key: string; label: string; type: "text" | "textarea" }[];
-  onSave: (blockKey: string, content: Record<string, string>) => void;
+  onSave: (blockKey: string, content: Record<string, unknown>) => void;
 }
 
 function ContentEditor({ title, blockKey, content, fields, onSave }: ContentEditorProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editContent, setEditContent] = useState<Record<string, string>>({});
+  const [editContent, setEditContent] = useState<Record<string, unknown>>({});
 
   const handleEdit = () => {
-    setEditContent(content || {});
+    setEditContent(content ? { ...content } : {});
     setIsEditing(true);
   };
 
