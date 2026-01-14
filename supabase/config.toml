@@ -1,1 +1,4 @@
 project_id = "djasykbaoqceslmfusfj"
+
+[functions.send-telegram]
+verify_jwt = false

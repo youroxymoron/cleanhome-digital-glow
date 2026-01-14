@@ -10,7 +10,7 @@ const Header = () => {
     { label: "Главная", href: "#" },
     { label: "Услуги", href: "#services" },
     { label: "О нас", href: "#about" },
-    { label: "Цены", href: "#pricing" },
+    { label: "Цены", href: "#services" },
     { label: "Контакты", href: "#contacts" },
   ];
 
