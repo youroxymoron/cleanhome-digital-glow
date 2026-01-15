@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://cleanhome-digital-glow.lovable.app/sitemap.xml
