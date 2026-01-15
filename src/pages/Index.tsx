@@ -5,11 +5,13 @@ import WhyUsSection from "@/components/WhyUsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import StructuredData from "@/components/StructuredData";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead />
+      <StructuredData pageType="home" />
       <Header />
       <main>
         <section id="hero">

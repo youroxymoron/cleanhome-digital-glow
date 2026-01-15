@@ -8,6 +8,7 @@ import { useSiteContent, HeaderContent } from "@/hooks/useSiteContent";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import StructuredData from "@/components/StructuredData";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, Building2, Sofa, SprayCan, Sparkles, HardHat
@@ -27,6 +28,7 @@ const ServicesPage = () => {
         title="Услуги клининга — Clean House в Донецке"
         description="Полный спектр клининговых услуг: уборка квартир, домов, офисов, генеральная уборка, мытьё окон, химчистка мебели. Профессиональный подход."
       />
+      <StructuredData pageType="services" services={services || []} />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">

@@ -1,8 +1,22 @@
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+Host: https://cleanhome-digital-glow.lovable.app
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexImages
+Allow: /
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -12,5 +26,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Crawl-delay: 5
 
 Sitemap: https://cleanhome-digital-glow.lovable.app/sitemap.xml
+Host: https://cleanhome-digital-glow.lovable.app
