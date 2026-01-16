@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Sparkles, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-clean-home.jpg";
+
+const heroImage = "/images/hero-clean-home.jpg";
 
 const HeroSection = () => {
   const features = [
