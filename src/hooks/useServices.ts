@@ -11,7 +11,14 @@ export interface Service {
   is_active: boolean;
   image_url: string | null;
   full_description: string | null;
+  category: string;
 }
+
+export const categoryLabels: Record<string, string> = {
+  cleaning: "Услуги уборки",
+  dry_cleaning: "Услуги химчистки",
+  windows: "Услуги мойки окон",
+};
 
 export function useServices() {
   return useQuery({

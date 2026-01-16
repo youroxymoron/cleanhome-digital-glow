@@ -6,71 +6,51 @@ import {
   SprayCan, 
   Sparkles, 
   HardHat,
-  ArrowRight
+  ArrowRight,
+  Waves,
+  BedDouble,
+  AppWindow,
+  Hammer,
+  RefreshCw,
+  AlertTriangle,
+  Trash2,
+  Grid3X3,
+  Wine,
+  LayoutGrid,
+  Dog,
+  Blinds,
+  Maximize2,
+  Construction,
+  DoorOpen,
+  Grid2X2,
+  Eraser,
+  Armchair
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { useServices } from "@/hooks/useServices";
+import { useServices, categoryLabels } from "@/hooks/useServices";
 import { Button } from "@/components/ui/button";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Home,
-  Building2,
-  Sofa,
-  SprayCan,
-  Sparkles,
-  HardHat,
+  Home, Building2, Sofa, SprayCan, Sparkles, HardHat, Waves, BedDouble, 
+  AppWindow, Hammer, RefreshCw, AlertTriangle, Trash2, Grid3X3, Wine,
+  LayoutGrid, Dog, Blinds, Maximize2, Construction, DoorOpen, Grid2X2,
+  Eraser, Armchair, Microwave: SprayCan, Refrigerator: SprayCan, Chair: Sofa, Square: SprayCan
 };
-
-const fallbackServices = [
-  {
-    id: "1",
-    icon: "Home",
-    title: "Уборка квартир",
-    description: "Комплексная уборка жилых помещений с использованием экологичных средств",
-    price: "от 2 500 ₽",
-  },
-  {
-    id: "2",
-    icon: "Building2",
-    title: "Уборка офисов",
-    description: "Поддержание чистоты рабочих пространств для комфортной работы",
-    price: "от 4 000 ₽",
-  },
-  {
-    id: "3",
-    icon: "Sofa",
-    title: "Химчистка мебели",
-    description: "Глубокая чистка диванов, кресел и ковров профессиональным оборудованием",
-    price: "от 1 500 ₽",
-  },
-  {
-    id: "4",
-    icon: "SprayCan",
-    title: "Дезинфекция",
-    description: "Полная дезинфекция помещений для устранения бактерий и вирусов",
-    price: "от 3 000 ₽",
-  },
-  {
-    id: "5",
-    icon: "Sparkles",
-    title: "Мойка окон",
-    description: "Качественная мойка окон любой сложности на любых этажах",
-    price: "от 500 ₽/окно",
-  },
-  {
-    id: "6",
-    icon: "HardHat",
-    title: "Уборка после ремонта",
-    description: "Удаление строительной пыли и мусора после ремонтных работ",
-    price: "от 5 000 ₽",
-  },
-];
 
 const ServicesSection = () => {
   const { data: services, isLoading } = useServices();
   
-  const displayServices = services && services.length > 0 ? services : fallbackServices;
+  // Группируем услуги по категориям
+  const groupedServices = services?.reduce((acc, service) => {
+    const category = service.category || 'cleaning';
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(service);
+    return acc;
+  }, {} as Record<string, typeof services>);
+
+  const categoryOrder = ['cleaning', 'dry_cleaning', 'windows'];
+
   return (
     <section id="services" className="py-24 bg-background">
       <div className="container mx-auto px-4">
@@ -92,46 +72,69 @@ const ServicesSection = () => {
           </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayServices.map((service, index) => {
-            const IconComponent = iconMap[service.icon] || Sparkles;
-            return (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Link to={`/services/${service.id}`}>
-                  <Card className="group h-full hover:shadow-lg transition-all duration-300 border-border hover:border-primary/30 cursor-pointer">
-                    <CardContent className="p-6">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <IconComponent className="w-7 h-7 text-primary-foreground" />
-                      </div>
-                      
-                      <h3 className="text-xl font-bold text-foreground mb-3">
-                        {service.title}
-                      </h3>
-                      
-                      <p className="text-muted-foreground mb-4">
-                        {service.description}
-                      </p>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-primary">
-                          {service.price}
-                        </span>
-                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
+        {/* Loading */}
+        {isLoading && (
+          <div className="flex justify-center py-12">
+            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+          </div>
+        )}
+
+        {/* Services by Category */}
+        {groupedServices && categoryOrder.map((categoryKey) => {
+          const categoryServices = groupedServices[categoryKey];
+          if (!categoryServices?.length) return null;
+
+          return (
+            <motion.div
+              key={categoryKey}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-12"
+            >
+              <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                <span className="w-1.5 h-8 bg-gradient-primary rounded-full" />
+                {categoryLabels[categoryKey]}
+              </h3>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {categoryServices.map((service, index) => {
+                  const IconComponent = iconMap[service.icon] || Sparkles;
+                  return (
+                    <motion.div
+                      key={service.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <Link to={`/services/${service.id}`}>
+                        <Card className="group h-full hover:shadow-md transition-all duration-300 border-border hover:border-primary/30 cursor-pointer">
+                          <CardContent className="p-4">
+                            <div className="flex items-start gap-3">
+                              <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                <IconComponent className="w-5 h-5 text-primary-foreground" />
+                              </div>
+                              
+                              <div className="flex-1 min-w-0">
+                                <h4 className="text-sm font-semibold text-foreground mb-1 line-clamp-2">
+                                  {service.title}
+                                </h4>
+                                <span className="text-sm font-bold text-primary">
+                                  {service.price}
+                                </span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          );
+        })}
 
         {/* CTA */}
         <motion.div
