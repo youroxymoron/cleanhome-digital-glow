@@ -88,6 +88,7 @@ export type Database = {
       }
       services: {
         Row: {
+          category: string
           created_at: string
           description: string
           full_description: string | null
@@ -101,6 +102,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category?: string
           created_at?: string
           description: string
           full_description?: string | null
@@ -114,6 +116,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          category?: string
           created_at?: string
           description?: string
           full_description?: string | null

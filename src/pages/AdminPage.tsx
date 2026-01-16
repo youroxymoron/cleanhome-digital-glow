@@ -36,7 +36,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 // Hooks
-import { useAllServices, useUpdateService, useCreateService, useDeleteService, Service } from "@/hooks/useServices";
+import { useAllServices, useUpdateService, useCreateService, useDeleteService, Service, categoryLabels } from "@/hooks/useServices";
 import { useAllFeatures, useUpdateFeature, useCreateFeature, useDeleteFeature, Feature } from "@/hooks/useFeatures";
 import { useAllContacts, useUpdateContact, useCreateContact, useDeleteContact, Contact } from "@/hooks/useContacts";
 import { useSiteContent, useUpdateSiteContent, HeroContent, HeaderContent, FooterContent } from "@/hooks/useSiteContent";
@@ -280,6 +280,7 @@ const AdminPage = () => {
                     is_active: true,
                     image_url: null,
                     full_description: null,
+                    category: "cleaning",
                   }}
                   onSave={handleSaveService}
                   onCancel={() => setNewService(false)}
@@ -557,7 +558,25 @@ function ServiceEditor({ service, onSave, onCancel }: ServiceEditorProps) {
             rows={4}
           />
         </div>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">Категория</label>
+            <Select
+              value={editService.category}
+              onValueChange={(value) => setEditService({ ...editService, category: value })}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(categoryLabels).map(([key, label]) => (
+                  <SelectItem key={key} value={key}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">Иконка</label>
             <Select
