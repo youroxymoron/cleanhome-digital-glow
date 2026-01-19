@@ -2,7 +2,10 @@ import { motion } from "framer-motion";
 import { Sparkles, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const heroImage = "/images/hero-clean-home.jpg";
+const heroImage = new URL(
+  "images/hero-clean-home.jpg",
+  import.meta.env.BASE_URL
+).toString();
 
 const HeroSection = () => {
   const features = [
