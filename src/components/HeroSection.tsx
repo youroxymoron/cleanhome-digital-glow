@@ -115,7 +115,7 @@ const HeroSection = () => {
             >
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center">
-                  <span className="text-primary-foreground text-2xl font-bold">5+</span>
+                  <span className="text-primary-foreground text-2xl font-bold">12+</span>
                 </div>
                 <div>
                   <p className="font-bold text-foreground text-lg">Лет опыта</p>
@@ -131,7 +131,7 @@ const HeroSection = () => {
               transition={{ delay: 1 }}
               className="absolute -top-4 -right-4 bg-primary text-primary-foreground rounded-full px-4 py-2 shadow-glow"
             >
-              <span className="font-bold">500+ клиентов</span>
+              <span className="font-bold">1000+ клиентов</span>
             </motion.div>
           </motion.div>
         </div>

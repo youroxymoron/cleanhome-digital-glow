@@ -60,18 +60,22 @@ const WhyUsSection = () => {
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">500+</div>
-                <div className="text-muted-foreground text-sm">Довольных клиентов</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">5+</div>
+                <div className="text-4xl font-bold text-primary mb-2">12+</div>
                 <div className="text-muted-foreground text-sm">Лет опыта</div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-bold text-primary mb-2">1000+</div>
+                <div className="text-muted-foreground text-sm">Довольных клиентов</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary mb-2">2000+</div>
                 <div className="text-muted-foreground text-sm">Уборок</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary mb-2">Пн-Вс</div>
+                <div className="text-muted-foreground text-sm">Без выходных</div>
               </div>
             </div>
           </motion.div>
