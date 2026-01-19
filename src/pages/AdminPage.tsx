@@ -39,7 +39,7 @@ import Footer from "@/components/Footer";
 import { useAllServices, useUpdateService, useCreateService, useDeleteService, Service, categoryLabels } from "@/hooks/useServices";
 import { useAllFeatures, useUpdateFeature, useCreateFeature, useDeleteFeature, Feature } from "@/hooks/useFeatures";
 import { useAllContacts, useUpdateContact, useCreateContact, useDeleteContact, Contact } from "@/hooks/useContacts";
-import { useSiteContent, useUpdateSiteContent, HeroContent, HeaderContent, FooterContent } from "@/hooks/useSiteContent";
+import { useSiteContent, useUpdateSiteContent, HeroContent, HeaderContent, FooterContent, StatsContent } from "@/hooks/useSiteContent";
 
 const iconOptions = [
   { value: "Home", label: "Дом", icon: Home },
@@ -71,6 +71,7 @@ const AdminPage = () => {
   const { data: whyUsHeader } = useSiteContent<HeaderContent>("why_us_header");
   const { data: contactsHeader } = useSiteContent<HeaderContent>("contacts_header");
   const { data: footerContent } = useSiteContent<FooterContent>("footer");
+  const { data: statsContent } = useSiteContent<StatsContent>("stats");
   
   // Mutation hooks
   const updateService = useUpdateService();
@@ -257,6 +258,19 @@ const AdminPage = () => {
                 ]}
                 onSave={handleUpdateSiteContent}
               />
+
+              {/* Stats */}
+              <ContentEditor
+                title="Статистика (Почему мы)"
+                blockKey="stats"
+                content={statsContent}
+                fields={[
+                  { key: "years", label: "Лет опыта (например: 12+)", type: "text" },
+                  { key: "clients", label: "Клиентов (например: 1000+)", type: "text" },
+                  { key: "cleanings", label: "Уборок (например: 2000+)", type: "text" },
+                ]}
+                onSave={handleUpdateSiteContent}
+              />
             </TabsContent>
 
             {/* Services Tab */}
@@ -429,7 +443,7 @@ const AdminPage = () => {
 interface ContentEditorProps {
   title: string;
   blockKey: string;
-  content: HeroContent | HeaderContent | FooterContent | undefined;
+  content: HeroContent | HeaderContent | FooterContent | StatsContent | undefined;
   fields: { key: string; label: string; type: "text" | "textarea" }[];
   onSave: (blockKey: string, content: Record<string, unknown>) => void;
 }

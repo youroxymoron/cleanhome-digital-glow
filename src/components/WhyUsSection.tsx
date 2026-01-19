@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, Clock, Leaf, Award, Users, ThumbsUp } from "lucide-react";
+import { useSiteContent, StatsContent } from "@/hooks/useSiteContent";
 
 const features = [
   {
@@ -34,7 +35,16 @@ const features = [
   },
 ];
 
+const defaultStats: StatsContent = {
+  years: "12+",
+  clients: "1000+",
+  cleanings: "2000+",
+};
+
 const WhyUsSection = () => {
+  const { data: stats } = useSiteContent<StatsContent>("stats");
+  const displayStats = stats || defaultStats;
+
   return (
     <section id="about" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-4">
@@ -60,22 +70,18 @@ const WhyUsSection = () => {
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            <div className="grid grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">12+</div>
+                <div className="text-4xl font-bold text-primary mb-2">{displayStats.years}</div>
                 <div className="text-muted-foreground text-sm">Лет опыта</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">1000+</div>
+                <div className="text-4xl font-bold text-primary mb-2">{displayStats.clients}</div>
                 <div className="text-muted-foreground text-sm">Довольных клиентов</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">2000+</div>
+                <div className="text-4xl font-bold text-primary mb-2">{displayStats.cleanings}</div>
                 <div className="text-muted-foreground text-sm">Уборок</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">Пн-Вс</div>
-                <div className="text-muted-foreground text-sm">Без выходных</div>
               </div>
             </div>
           </motion.div>

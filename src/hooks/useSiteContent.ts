@@ -24,6 +24,12 @@ export interface FooterContent {
   description: string;
 }
 
+export interface StatsContent {
+  years: string;
+  clients: string;
+  cleanings: string;
+}
+
 export function useSiteContent<T>(blockKey: string) {
   return useQuery({
     queryKey: ["site_content", blockKey],
