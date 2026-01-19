@@ -1,13 +1,22 @@
 import { motion } from "framer-motion";
 import { Sparkles, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSiteContent, StatsContent } from "@/hooks/useSiteContent";
 
 const heroImage = new URL(
   "images/hero-clean-home.jpg",
   import.meta.env.BASE_URL
 ).toString();
 
+const defaultStats: StatsContent = {
+  years: "12+",
+  clients: "1000+",
+  cleanings: "2000+",
+};
+
 const HeroSection = () => {
+  const { data: stats } = useSiteContent<StatsContent>("stats");
+  const displayStats = stats || defaultStats;
   const features = [
     "Экологичные средства",
     "Опытные специалисты",
@@ -115,7 +124,7 @@ const HeroSection = () => {
             >
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center">
-                  <span className="text-primary-foreground text-2xl font-bold">12+</span>
+                  <span className="text-primary-foreground text-2xl font-bold">{displayStats.years}</span>
                 </div>
                 <div>
                   <p className="font-bold text-foreground text-lg">Лет опыта</p>
@@ -131,7 +140,7 @@ const HeroSection = () => {
               transition={{ delay: 1 }}
               className="absolute -top-4 -right-4 bg-primary text-primary-foreground rounded-full px-4 py-2 shadow-glow"
             >
-              <span className="font-bold">1000+ клиентов</span>
+              <span className="font-bold">{displayStats.clients} клиентов</span>
             </motion.div>
           </motion.div>
         </div>
