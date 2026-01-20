@@ -3,10 +3,7 @@ import { Sparkles, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSiteContent, StatsContent } from "@/hooks/useSiteContent";
 
-const heroImage = new URL(
-  "images/hero-clean-home.jpg",
-  import.meta.env.BASE_URL
-).toString();
+const heroImage = "/images/hero-clean-home.jpg";
 
 const defaultStats: StatsContent = {
   years: "12+",
