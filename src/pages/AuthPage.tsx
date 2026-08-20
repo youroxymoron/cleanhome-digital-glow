@@ -90,7 +90,9 @@ const AuthPage = () => {
           <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-3">
             <Lock className="w-6 h-6 text-primary-foreground" />
           </div>
-          <CardTitle>Вход в панель управления</CardTitle>
+          <CardTitle>
+            {isSignUp ? "Регистрация" : "Вход в панель управления"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,7 +115,7 @@ const AuthPage = () => {
               </label>
               <Input
                 type="password"
-                autoComplete="current-password"
+                autoComplete={isSignUp ? "new-password" : "current-password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 maxLength={72}
@@ -121,8 +123,21 @@ const AuthPage = () => {
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Вход..." : "Войти"}
+              {isLoading
+                ? "Подождите..."
+                : isSignUp
+                  ? "Создать аккаунт"
+                  : "Войти"}
             </Button>
+            <button
+              type="button"
+              onClick={() => setIsSignUp((v) => !v)}
+              className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {isSignUp
+                ? "У меня уже есть аккаунт"
+                : "Создать новый аккаунт"}
+            </button>
           </form>
         </CardContent>
       </Card>
