@@ -5,8 +5,26 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+
+const contactSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, { message: "Имя должно быть от 2 до 100 символов" })
+    .max(100, { message: "Имя должно быть от 2 до 100 символов" })
+    .regex(/^[\p{L}\s'’\-.]+$/u, { message: "Имя содержит недопустимые символы" }),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[+]?[0-9\s()\-]{7,20}$/, { message: "Неверный формат телефона" }),
+  message: z
+    .string()
+    .trim()
+    .max(1000, { message: "Сообщение слишком длинное (макс. 1000 символов)" }),
+});
 
 const contactInfo = [
   {
