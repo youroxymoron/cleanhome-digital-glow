@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useEditMode } from "@/contexts/EditModeContext";
+import { useAuth } from "@/hooks/useAuth";
 import { Pencil, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
