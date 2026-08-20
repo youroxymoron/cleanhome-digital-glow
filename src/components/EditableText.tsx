@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useEditMode } from "@/contexts/EditModeContext";
+import { useAuth } from "@/hooks/useAuth";
 import { Pencil, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +21,9 @@ export function EditableText({
   multiline = false,
   placeholder = "Введите текст...",
 }: EditableTextProps) {
-  const { isEditMode } = useEditMode();
+  const { isEditMode: editModeEnabled } = useEditMode();
+  const { isAdmin } = useAuth();
+  const isEditMode = editModeEnabled && isAdmin;
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(value);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
