@@ -1,9 +1,15 @@
 import { useEditMode } from "@/contexts/EditModeContext";
+import { useAuth } from "@/hooks/useAuth";
 import { Pencil, Eye } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function EditModeToggle() {
   const { isEditMode, toggleEditMode } = useEditMode();
+  const { isAdmin } = useAuth();
+
+  if (!isAdmin) return null;
+
+
 
   return (
     <motion.button
