@@ -21,6 +21,7 @@ const AuthPage = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,6 +37,33 @@ const AuthPage = () => {
     }
 
     setIsLoading(true);
+
+    if (isSignUp) {
+      const { error } = await supabase.auth.signUp({
+        email: parsed.data.email,
+        password: parsed.data.password,
+        options: { emailRedirectTo: `${window.location.origin}/auth` },
+      });
+      setIsLoading(false);
+
+      if (error) {
+        toast({
+          title: "Не удалось создать аккаунт",
+          description: "Проверьте данные или попробуйте войти",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Аккаунт создан",
+        description:
+          "Права администратора выдаются владельцем сайта отдельно.",
+      });
+      setIsSignUp(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email: parsed.data.email,
       password: parsed.data.password,
@@ -53,6 +81,7 @@ const AuthPage = () => {
 
     navigate("/admin", { replace: true });
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
