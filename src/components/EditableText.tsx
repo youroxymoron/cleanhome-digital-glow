@@ -21,7 +21,9 @@ export function EditableText({
   multiline = false,
   placeholder = "Введите текст...",
 }: EditableTextProps) {
-  const { isEditMode } = useEditMode();
+  const { isEditMode: editModeEnabled } = useEditMode();
+  const { isAdmin } = useAuth();
+  const isEditMode = editModeEnabled && isAdmin;
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(value);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
