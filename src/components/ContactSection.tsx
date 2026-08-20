@@ -70,14 +70,26 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const parsed = contactSchema.safeParse(formData);
+    if (!parsed.success) {
+      toast({
+        title: "Проверьте данные",
+        description: parsed.error.issues[0].message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("send-telegram", {
-        body: formData,
+      const { error } = await supabase.functions.invoke("send-telegram", {
+        body: parsed.data,
       });
 
       if (error) throw error;
+
 
       toast({
         title: "Заявка отправлена!",
