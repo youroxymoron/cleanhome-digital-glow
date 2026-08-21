@@ -24,10 +24,10 @@ export function StructuredData({ services, pageType = "home", currentService }: 
     const localBusinessSchema = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "@id": "https://cleanhome-digital-glow.lovable.app/#organization",
+      "@id": "https://cleanhousednr.ru/#organization",
       "name": "Clean House",
       "description": "Профессиональные услуги клининга в Донецке. Уборка квартир, домов и офисов.",
-      "url": "https://cleanhome-digital-glow.lovable.app",
+      "url": "https://cleanhousednr.ru",
       "telephone": "+7 949 501 57 51",
       "address": {
         "@type": "PostalAddress",
@@ -46,7 +46,7 @@ export function StructuredData({ services, pageType = "home", currentService }: 
         "closes": "20:00"
       },
       "priceRange": "₽₽",
-      "image": "https://cleanhome-digital-glow.lovable.app/og-image.jpg",
+      "image": "https://cleanhousednr.ru/og-image.jpg",
       "sameAs": []
     };
 
@@ -65,12 +65,12 @@ export function StructuredData({ services, pageType = "home", currentService }: 
           "position": index + 1,
           "item": {
             "@type": "Service",
-            "@id": `https://cleanhome-digital-glow.lovable.app/services/${service.id}`,
+            "@id": `https://cleanhousednr.ru/services/${service.id}`,
             "name": service.title,
             "description": service.description,
             "provider": {
               "@type": "LocalBusiness",
-              "@id": "https://cleanhome-digital-glow.lovable.app/#organization"
+              "@id": "https://cleanhousednr.ru/#organization"
             },
             "areaServed": {
               "@type": "City",
@@ -98,18 +98,18 @@ export function StructuredData({ services, pageType = "home", currentService }: 
       const serviceSchema = {
         "@context": "https://schema.org",
         "@type": "Service",
-        "@id": `https://cleanhome-digital-glow.lovable.app/services/${currentService.id}`,
+        "@id": `https://cleanhousednr.ru/services/${currentService.id}`,
         "name": currentService.title,
         "description": currentService.description,
         "provider": {
           "@type": "LocalBusiness",
-          "@id": "https://cleanhome-digital-glow.lovable.app/#organization"
+          "@id": "https://cleanhousednr.ru/#organization"
         },
         "areaServed": {
           "@type": "City",
           "name": "Донецк"
         },
-        "image": currentService.image_url || "https://cleanhome-digital-glow.lovable.app/og-image.jpg",
+        "image": currentService.image_url || "https://cleanhousednr.ru/og-image.jpg",
         "offers": {
           "@type": "Offer",
           "price": currentService.price.replace(/[^\d]/g, '') || "0",
@@ -129,19 +129,19 @@ export function StructuredData({ services, pageType = "home", currentService }: 
             "@type": "ListItem",
             "position": 1,
             "name": "Главная",
-            "item": "https://cleanhome-digital-glow.lovable.app/"
+            "item": "https://cleanhousednr.ru/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Услуги",
-            "item": "https://cleanhome-digital-glow.lovable.app/services"
+            "item": "https://cleanhousednr.ru/services"
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": currentService.title,
-            "item": `https://cleanhome-digital-glow.lovable.app/services/${currentService.id}`
+            "item": `https://cleanhousednr.ru/services/${currentService.id}`
           }
         ]
       };
@@ -155,12 +155,12 @@ export function StructuredData({ services, pageType = "home", currentService }: 
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Clean House",
-        "url": "https://cleanhome-digital-glow.lovable.app",
+        "url": "https://cleanhousednr.ru",
         "description": "Профессиональный клининг в Донецке",
         "inLanguage": "ru-RU",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://cleanhome-digital-glow.lovable.app/services?q={search_term_string}",
+          "target": "https://cleanhousednr.ru/services?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       };

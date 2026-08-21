@@ -6,7 +6,7 @@ https://cleanhousednr.ru/
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://cleanhome-digital-glow.lovable.app
+**Live app**: https://cleanhousednr.ru/
 
 ## Build with Lovable
 

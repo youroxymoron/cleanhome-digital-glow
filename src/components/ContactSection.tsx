@@ -8,6 +8,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { trackConversion } from "@/lib/analytics";
 
 const contactSchema = z.object({
   name: z
@@ -89,6 +90,8 @@ const ContactSection = () => {
       });
 
       if (error) throw error;
+
+      trackConversion("contact_form_submit");
 
 
       toast({

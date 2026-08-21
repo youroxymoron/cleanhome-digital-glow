@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { 
+import {
   Plus, 
   Pencil, 
   Trash2, 
@@ -22,6 +22,7 @@ import {
   Phone,
   Mail,
   MapPin,
+  Star,
 } from "lucide-react";
 import { ImageUpload } from "@/components/ImageUpload";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,9 @@ import Footer from "@/components/Footer";
 import { useAllServices, useUpdateService, useCreateService, useDeleteService, Service, categoryLabels } from "@/hooks/useServices";
 import { useAllFeatures, useUpdateFeature, useCreateFeature, useDeleteFeature, Feature } from "@/hooks/useFeatures";
 import { useAllContacts, useUpdateContact, useCreateContact, useDeleteContact, Contact } from "@/hooks/useContacts";
+import { useAllReviews, useUpdateReview, useCreateReview, useDeleteReview, Review } from "@/hooks/useReviews";
+import { useAllFaq, useUpdateFaq, useCreateFaq, useDeleteFaq, FaqItem } from "@/hooks/useFaq";
+import { useAllGallery, useUpdateGallery, useCreateGallery, useDeleteGallery, GalleryItem } from "@/hooks/useGallery";
 import { useSiteContent, useUpdateSiteContent, HeroContent, HeaderContent, FooterContent, StatsContent } from "@/hooks/useSiteContent";
 
 const iconOptions = [
@@ -66,6 +70,9 @@ const AdminPage = () => {
   const { data: services, isLoading: servicesLoading } = useAllServices();
   const { data: features, isLoading: featuresLoading } = useAllFeatures();
   const { data: contacts, isLoading: contactsLoading } = useAllContacts();
+  const { data: reviews, isLoading: reviewsLoading } = useAllReviews();
+  const { data: faqItems, isLoading: faqLoading } = useAllFaq();
+  const { data: galleryItems, isLoading: galleryLoading } = useAllGallery();
   const { data: heroContent } = useSiteContent<HeroContent>("hero");
   const { data: servicesHeader } = useSiteContent<HeaderContent>("services_header");
   const { data: whyUsHeader } = useSiteContent<HeaderContent>("why_us_header");
@@ -83,15 +90,30 @@ const AdminPage = () => {
   const updateContact = useUpdateContact();
   const createContact = useCreateContact();
   const deleteContact = useDeleteContact();
+  const updateReview = useUpdateReview();
+  const createReview = useCreateReview();
+  const deleteReview = useDeleteReview();
+  const updateFaq = useUpdateFaq();
+  const createFaq = useCreateFaq();
+  const deleteFaq = useDeleteFaq();
+  const updateGallery = useUpdateGallery();
+  const createGallery = useCreateGallery();
+  const deleteGallery = useDeleteGallery();
   const updateSiteContent = useUpdateSiteContent();
-
+  
   // Edit states
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [editingFeature, setEditingFeature] = useState<Feature | null>(null);
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
+  const [editingReview, setEditingReview] = useState<Review | null>(null);
+  const [editingFaq, setEditingFaq] = useState<FaqItem | null>(null);
+  const [editingGallery, setEditingGallery] = useState<GalleryItem | null>(null);
   const [newService, setNewService] = useState(false);
   const [newFeature, setNewFeature] = useState(false);
   const [newContact, setNewContact] = useState(false);
+  const [newReview, setNewReview] = useState(false);
+  const [newFaq, setNewFaq] = useState(false);
+  const [newGallery, setNewGallery] = useState(false);
 
   const handleSaveService = async (service: Partial<Service> & { id?: string }) => {
     try {
@@ -159,6 +181,72 @@ const AdminPage = () => {
     }
   };
 
+  const handleSaveReview = async (review: Partial<Review> & { id?: string }) => {
+    try {
+      if (review.id) {
+        await updateReview.mutateAsync(review as Review);
+      } else {
+        await createReview.mutateAsync(review as Omit<Review, "id">);
+      }
+      toast({ title: "Успешно сохранено!" });
+      setEditingReview(null);
+      setNewReview(false);
+    } catch (error) {
+      toast({ title: "Ошибка сохранения", variant: "destructive" });
+    }
+  };
+
+  const handleDeleteReview = async (id: string) => {
+    if (confirm("Удалить отзыв?")) {
+      await deleteReview.mutateAsync(id);
+      toast({ title: "Отзыв удалён" });
+    }
+  };
+
+  const handleSaveFaq = async (faq: Partial<FaqItem> & { id?: string }) => {
+    try {
+      if (faq.id) {
+        await updateFaq.mutateAsync(faq as FaqItem);
+      } else {
+        await createFaq.mutateAsync(faq as Omit<FaqItem, "id">);
+      }
+      toast({ title: "Успешно сохранено!" });
+      setEditingFaq(null);
+      setNewFaq(false);
+    } catch (error) {
+      toast({ title: "Ошибка сохранения", variant: "destructive" });
+    }
+  };
+
+  const handleDeleteFaq = async (id: string) => {
+    if (confirm("Удалить вопрос?")) {
+      await deleteFaq.mutateAsync(id);
+      toast({ title: "Вопрос удалён" });
+    }
+  };
+
+  const handleSaveGallery = async (item: Partial<GalleryItem> & { id?: string }) => {
+    try {
+      if (item.id) {
+        await updateGallery.mutateAsync(item as GalleryItem);
+      } else {
+        await createGallery.mutateAsync(item as Omit<GalleryItem, "id">);
+      }
+      toast({ title: "Успешно сохранено!" });
+      setEditingGallery(null);
+      setNewGallery(false);
+    } catch (error) {
+      toast({ title: "Ошибка сохранения", variant: "destructive" });
+    }
+  };
+
+  const handleDeleteGallery = async (id: string) => {
+    if (confirm("Удалить элемент галереи?")) {
+      await deleteGallery.mutateAsync(id);
+      toast({ title: "Элемент удалён" });
+    }
+  };
+
   const handleUpdateSiteContent = async (blockKey: string, content: Record<string, unknown>) => {
     try {
       await updateSiteContent.mutateAsync({ blockKey, content: content as import("@/integrations/supabase/types").Json });
@@ -187,11 +275,14 @@ const AdminPage = () => {
           </motion.div>
 
           <Tabs defaultValue="content" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
+            <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:inline-grid">
               <TabsTrigger value="content">Тексты</TabsTrigger>
               <TabsTrigger value="services">Услуги</TabsTrigger>
               <TabsTrigger value="features">Преимущества</TabsTrigger>
               <TabsTrigger value="contacts">Контакты</TabsTrigger>
+              <TabsTrigger value="reviews">Отзывы</TabsTrigger>
+              <TabsTrigger value="gallery">Галерея</TabsTrigger>
+              <TabsTrigger value="faq">FAQ</TabsTrigger>
             </TabsList>
 
             {/* Content Tab */}
@@ -424,6 +515,159 @@ const AdminPage = () => {
                           contact={contact}
                           onEdit={() => setEditingContact(contact)}
                           onDelete={() => handleDeleteContact(contact.id)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            {/* Reviews Tab */}
+            <TabsContent value="reviews" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">Отзывы</h2>
+                <Button onClick={() => setNewReview(true)}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Добавить отзыв
+                </Button>
+              </div>
+
+              {newReview && (
+                <ReviewEditor
+                  review={{
+                    author_name: "",
+                    author_role: null,
+                    rating: 5,
+                    text: "",
+                    sort_order: (reviews?.length || 0) + 1,
+                    is_active: true,
+                  }}
+                  onSave={handleSaveReview}
+                  onCancel={() => setNewReview(false)}
+                />
+              )}
+
+              {reviewsLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {reviews?.map((review) => (
+                    <div key={review.id}>
+                      {editingReview?.id === review.id ? (
+                        <ReviewEditor
+                          review={editingReview}
+                          onSave={handleSaveReview}
+                          onCancel={() => setEditingReview(null)}
+                        />
+                      ) : (
+                        <ReviewCard
+                          review={review}
+                          onEdit={() => setEditingReview(review)}
+                          onDelete={() => handleDeleteReview(review.id)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            {/* Gallery Tab */}
+            <TabsContent value="gallery" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">Галерея (ДО/ПОСЛЕ)</h2>
+                <Button onClick={() => setNewGallery(true)}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Добавить элемент
+                </Button>
+              </div>
+
+              {newGallery && (
+                <GalleryEditor
+                  item={{
+                    title: "",
+                    before_image_url: null,
+                    after_image_url: null,
+                    sort_order: (galleryItems?.length || 0) + 1,
+                    is_active: true,
+                  }}
+                  onSave={handleSaveGallery}
+                  onCancel={() => setNewGallery(false)}
+                />
+              )}
+
+              {galleryLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {galleryItems?.map((item) => (
+                    <div key={item.id}>
+                      {editingGallery?.id === item.id ? (
+                        <GalleryEditor
+                          item={editingGallery}
+                          onSave={handleSaveGallery}
+                          onCancel={() => setEditingGallery(null)}
+                        />
+                      ) : (
+                        <GalleryCard
+                          item={item}
+                          onEdit={() => setEditingGallery(item)}
+                          onDelete={() => handleDeleteGallery(item.id)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            {/* FAQ Tab */}
+            <TabsContent value="faq" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">FAQ</h2>
+                <Button onClick={() => setNewFaq(true)}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Добавить вопрос
+                </Button>
+              </div>
+
+              {newFaq && (
+                <FaqEditor
+                  faq={{
+                    question: "",
+                    answer: "",
+                    sort_order: (faqItems?.length || 0) + 1,
+                    is_active: true,
+                  }}
+                  onSave={handleSaveFaq}
+                  onCancel={() => setNewFaq(false)}
+                />
+              )}
+
+              {faqLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {faqItems?.map((item) => (
+                    <div key={item.id}>
+                      {editingFaq?.id === item.id ? (
+                        <FaqEditor
+                          faq={editingFaq}
+                          onSave={handleSaveFaq}
+                          onCancel={() => setEditingFaq(null)}
+                        />
+                      ) : (
+                        <FaqCard
+                          faq={item}
+                          onEdit={() => setEditingFaq(item)}
+                          onDelete={() => handleDeleteFaq(item.id)}
                         />
                       )}
                     </div>
@@ -928,6 +1172,299 @@ function ContactCard({ contact, onEdit, onDelete }: { contact: Contact; onEdit: 
           <Button variant="outline" size="sm" onClick={onDelete}>
             <Trash2 className="w-4 h-4 text-destructive" />
           </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Review Editor Component
+interface ReviewEditorProps {
+  review: Omit<Review, "id"> & { id?: string };
+  onSave: (review: Partial<Review>) => void;
+  onCancel: () => void;
+}
+
+function ReviewEditor({ review, onSave, onCancel }: ReviewEditorProps) {
+  const [editReview, setEditReview] = useState(review);
+
+  return (
+    <Card className="border-primary">
+      <CardContent className="p-6 space-y-4">
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">Имя автора</label>
+            <Input
+              value={editReview.author_name}
+              onChange={(e) => setEditReview({ ...editReview, author_name: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">Роль</label>
+            <Input
+              value={editReview.author_role || ""}
+              onChange={(e) => setEditReview({ ...editReview, author_role: e.target.value || null })}
+              placeholder="например: клиент"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Рейтинг (1-5)</label>
+          <Input
+            type="number"
+            min={1}
+            max={5}
+            value={editReview.rating}
+            onChange={(e) => setEditReview({ ...editReview, rating: parseInt(e.target.value) || 5 })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Текст отзыва</label>
+          <Textarea
+            value={editReview.text}
+            onChange={(e) => setEditReview({ ...editReview, text: e.target.value })}
+            rows={4}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">Порядок</label>
+            <Input
+              type="number"
+              value={editReview.sort_order}
+              onChange={(e) => setEditReview({ ...editReview, sort_order: parseInt(e.target.value) })}
+            />
+          </div>
+          <div className="flex items-center gap-2 mt-8">
+            <Switch
+              checked={editReview.is_active}
+              onCheckedChange={(checked) => setEditReview({ ...editReview, is_active: checked })}
+            />
+            <span className="text-sm text-foreground">Активно</span>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={() => onSave(editReview)}>
+            <Save className="w-4 h-4 mr-2" />
+            Сохранить
+          </Button>
+          <Button variant="outline" onClick={onCancel}>
+            <X className="w-4 h-4 mr-2" />
+            Отмена
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Review Card Component
+function ReviewCard({ review, onEdit, onDelete }: { review: Review; onEdit: () => void; onDelete: () => void }) {
+  return (
+    <Card className={!review.is_active ? "opacity-50" : ""}>
+      <CardContent className="p-4 flex items-center gap-4">
+        <div className="flex items-center text-primary">
+          {Array.from({ length:5 }).map((_, i) => (
+            <Star key={i} className={`w-4 h-4 ${i < review.rating ? "fill-primary text-primary" : "text-muted/30"}`} />
+          ))}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-foreground">{review.author_name}</h3>
+          {review.author_role && (
+            <p className="text-sm text-muted-foreground">{review.author_role}</p>
+          )}
+          <p className="text-sm text-muted-foreground truncate">{review.text}</p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={onEdit}>
+            <Pencil className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={onDelete}>
+            <Trash2 className="w-4 h-4 text-destructive" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Gallery Editor Component
+interface GalleryEditorProps {
+  item: Omit<GalleryItem, "id"> & { id?: string };
+  onSave: (item: Partial<GalleryItem>) => void;
+  onCancel: () => void;
+}
+
+function GalleryEditor({ item, onSave, onCancel }: GalleryEditorProps) {
+  const [editItem, setEditItem] = useState(item);
+
+  return (
+    <Card className="border-primary">
+      <CardContent className="p-6 space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Название</label>
+          <Input
+            value={editItem.title}
+            onChange={(e) => setEditItem({ ...editItem, title: e.target.value })}
+            placeholder="например: Уборка квартиры после ремонта"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Фото ДО</label>
+          <ImageUpload
+            value={editItem.before_image_url}
+            onChange={(url) => setEditItem({ ...editItem, before_image_url: url })}
+            folder="gallery"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Фото ПОСЛЕ</label>
+          <ImageUpload
+            value={editItem.after_image_url}
+            onChange={(url) => setEditItem({ ...editItem, after_image_url: url })}
+            folder="gallery"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">Порядок</label>
+            <Input
+              type="number"
+              value={editItem.sort_order}
+              onChange={(e) => setEditItem({ ...editItem, sort_order: parseInt(e.target.value) })}
+            />
+          </div>
+          <div className="flex items-center gap-2 mt-8">
+            <Switch
+              checked={editItem.is_active}
+              onCheckedChange={(checked) => setEditItem({ ...editItem, is_active: checked })}
+            />
+            <span className="text-sm text-foreground">Активно</span>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={() => onSave(editItem)}>
+            <Save className="w-4 h-4 mr-2" />
+            Сохранить
+          </Button>
+          <Button variant="outline" onClick={onCancel}>
+            <X className="w-4 h-4 mr-2" />
+            Отмена
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Gallery Card Component
+function GalleryCard({ item, onEdit, onDelete }: { item: GalleryItem; onEdit: () => void; onDelete: () => void }) {
+  return (
+    <Card className={!item.is_active ? "opacity-50" : ""}>
+      <CardContent className="p-4 flex items-center gap-4">
+        <div className="flex gap-2 flex-shrink-0">
+          {item.before_image_url && (
+            <img src={item.before_image_url} alt="До" className="w-12 h-12 object-cover rounded" />
+          )}
+          {item.after_image_url && (
+            <img src={item.after_image_url} alt="После" className="w-12 h-12 object-cover rounded" />
+          )}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-foreground">{item.title}</h3>
+          <p className="text-sm text-muted-foreground">ДО/ПОСЛЕ фото</p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={onEdit}>
+            <Pencil className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={onDelete}>
+            <Trash2 className="w-4 h-4 text-destructive" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// FAQ Editor Component
+interface FaqEditorProps {
+  faq: Omit<FaqItem, "id"> & { id?: string };
+  onSave: (faq: Partial<FaqItem>) => void;
+  onCancel: () => void;
+}
+
+function FaqEditor({ faq, onSave, onCancel }: FaqEditorProps) {
+  const [editFaq, setEditFaq] = useState(faq);
+
+  return (
+    <Card className="border-primary">
+      <CardContent className="p-6 space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Вопрос</label>
+          <Input
+            value={editFaq.question}
+            onChange={(e) => setEditFaq({ ...editFaq, question: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Ответ</label>
+          <Textarea
+            value={editFaq.answer}
+            onChange={(e) => setEditFaq({ ...editFaq, answer: e.target.value })}
+            rows={4}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">Порядок</label>
+            <Input
+              type="number"
+              value={editFaq.sort_order}
+              onChange={(e) => setEditFaq({ ...editFaq, sort_order: parseInt(e.target.value) })}
+            />
+          </div>
+          <div className="flex items-center gap-2 mt-8">
+            <Switch
+              checked={editFaq.is_active}
+              onCheckedChange={(checked) => setEditFaq({ ...editFaq, is_active: checked })}
+            />
+            <span className="text-sm text-foreground">Активно</span>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={() => onSave(editFaq)}>
+            <Save className="w-4 h-4 mr-2" />
+            Сохранить
+          </Button>
+          <Button variant="outline" onClick={onCancel}>
+            <X className="w-4 h-4 mr-2" />
+            Отмена
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// FAQ Card Component
+function FaqCard({ faq, onEdit, onDelete }: { faq: FaqItem; onEdit: () => void; onDelete: () => void }) {
+  return (
+    <Card className={!faq.is_active ? "opacity-50" : ""}>
+      <CardContent className="p-4">
+        <div className="flex justify-between items-start gap-4">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-foreground mb-1">{faq.question}</h3>
+            <p className="text-sm text-muted-foreground line-clamp-2">{faq.answer}</p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={onEdit}>
+              <Pencil className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" size="sm" onClick={onDelete}>
+              <Trash2 className="w-4 h-4 text-destructive" />
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

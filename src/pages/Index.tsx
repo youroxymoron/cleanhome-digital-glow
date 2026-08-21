@@ -2,6 +2,9 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
 import WhyUsSection from "@/components/WhyUsSection";
+import ReviewsSection from "@/components/ReviewsSection";
+import GallerySection from "@/components/GallerySection";
+import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
@@ -20,8 +23,17 @@ const Index = () => {
         <section id="services" aria-label="Наши услуги">
           <ServicesSection />
         </section>
+        <section aria-label="Отзывы клиентов">
+          <ReviewsSection />
+        </section>
+        <section aria-label="Галерея работ">
+          <GallerySection />
+        </section>
         <section id="about" aria-label="Почему мы">
           <WhyUsSection />
+        </section>
+        <section aria-label="Вопросы и ответы">
+          <FAQSection />
         </section>
         <section id="contacts" aria-label="Контакты">
           <ContactSection />

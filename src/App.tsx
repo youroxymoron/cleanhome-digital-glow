@@ -9,6 +9,8 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import ServicesPage from "./pages/ServicesPage";
 import ServicePage from "./pages/ServicePage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Offer from "./pages/Offer";
 import AdminPage from "./pages/AdminPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
@@ -27,6 +29,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/services/:id" element={<ServicePage />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/offer" element={<Offer />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route
                 path="/admin"
