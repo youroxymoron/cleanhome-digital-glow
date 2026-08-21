@@ -57,17 +57,27 @@ const Header = () => {
 
           {/* Phone & CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href="tel:+79495015751"
-              className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              <span className="font-medium">+7 949 501 57 51</span>
-            </a>
+            <div className="flex flex-col leading-tight">
+              <a
+                href="tel:+79495015751"
+                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="font-medium">+7 949 501 57 51</span>
+              </a>
+              <a
+                href="tel:+79493763897"
+                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="font-medium">+7 949 376 38 97</span>
+              </a>
+            </div>
             <Button asChild>
               <a href="#contacts">Записаться</a>
             </Button>
           </div>
+
 
           {/* Mobile Menu Button */}
           <button
