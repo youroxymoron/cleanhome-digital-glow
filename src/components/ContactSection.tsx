@@ -85,20 +85,25 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.functions.invoke("send-telegram", {
-        body: parsed.data,
-      });
+      const [telegram, max] = await Promise.allSettled([
+        supabase.functions.invoke("send-telegram", { body: parsed.data }),
+        supabase.functions.invoke("send-max", { body: parsed.data }),
+      ]);
 
-      if (error) throw error;
+      const ok = [telegram, max].some(
+        (result) => result.status === "fulfilled" && !result.value.error,
+      );
+
+      if (!ok) throw new Error("Не удалось отправить заявку");
 
       trackConversion("contact_form_submit");
-
 
       toast({
         title: "Заявка отправлена!",
         description: "Мы свяжемся с вами в ближайшее время.",
       });
       setFormData({ name: "", phone: "", message: "" });
+
     } catch (error: any) {
       console.error("Error sending form:", error);
       toast({

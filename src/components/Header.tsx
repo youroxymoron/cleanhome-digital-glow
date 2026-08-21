@@ -18,14 +18,18 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* Mobile phone banner */}
       <div className="md:hidden bg-primary text-primary-foreground py-2 px-4">
-        <a
-          href="tel:+79495015751"
-          className="flex items-center justify-center gap-2 text-sm font-medium"
-        >
-          <Phone className="w-4 h-4" />
-          <span>+7 949 501 57 51</span>
-        </a>
+        <div className="flex items-center justify-center gap-4 text-sm font-medium">
+          <a href="tel:+79495015751" className="flex items-center gap-1.5">
+            <Phone className="w-4 h-4" />
+            <span>+7 949 501 57 51</span>
+          </a>
+          <a href="tel:+79493763897" className="flex items-center gap-1.5">
+            <Phone className="w-4 h-4" />
+            <span>+7 949 376 38 97</span>
+          </a>
+        </div>
       </div>
+
       
       <div className="bg-card/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4">
@@ -53,17 +57,27 @@ const Header = () => {
 
           {/* Phone & CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href="tel:+79495015751"
-              className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              <span className="font-medium">+7 949 501 57 51</span>
-            </a>
+            <div className="flex flex-col leading-tight">
+              <a
+                href="tel:+79495015751"
+                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="font-medium">+7 949 501 57 51</span>
+              </a>
+              <a
+                href="tel:+79493763897"
+                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="font-medium">+7 949 376 38 97</span>
+              </a>
+            </div>
             <Button asChild>
               <a href="#contacts">Записаться</a>
             </Button>
           </div>
+
 
           {/* Mobile Menu Button */}
           <button
@@ -101,6 +115,14 @@ const Header = () => {
                   <Phone className="w-4 h-4" />
                   +7 949 501 57 51
                 </a>
+                <a
+                  href="tel:+79493763897"
+                  className="flex items-center gap-2 text-primary font-medium"
+                >
+                  <Phone className="w-4 h-4" />
+                  +7 949 376 38 97
+                </a>
+
                 <Button asChild className="w-full mt-2">
                   <a href="#contacts">Записаться</a>
                 </Button>
