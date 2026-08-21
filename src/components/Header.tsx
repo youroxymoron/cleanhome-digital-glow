@@ -115,6 +115,14 @@ const Header = () => {
                   <Phone className="w-4 h-4" />
                   +7 949 501 57 51
                 </a>
+                <a
+                  href="tel:+79493763897"
+                  className="flex items-center gap-2 text-primary font-medium"
+                >
+                  <Phone className="w-4 h-4" />
+                  +7 949 376 38 97
+                </a>
+
                 <Button asChild className="w-full mt-2">
                   <a href="#contacts">Записаться</a>
                 </Button>
