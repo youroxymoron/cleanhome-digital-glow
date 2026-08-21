@@ -257,33 +257,35 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Header />
       <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            className="mb-6 md:mb-8"
           >
-            <h1 className="text-4xl font-bold text-foreground mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2">
               Управление контентом
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm md:text-base text-muted-foreground">
               Редактируйте текст, услуги и контакты на сайте
             </p>
           </motion.div>
 
-          <Tabs defaultValue="content" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:inline-grid">
-              <TabsTrigger value="content">Тексты</TabsTrigger>
-              <TabsTrigger value="services">Услуги</TabsTrigger>
-              <TabsTrigger value="features">Преимущества</TabsTrigger>
-              <TabsTrigger value="contacts">Контакты</TabsTrigger>
-              <TabsTrigger value="reviews">Отзывы</TabsTrigger>
-              <TabsTrigger value="gallery">Галерея</TabsTrigger>
-              <TabsTrigger value="faq">FAQ</TabsTrigger>
-            </TabsList>
+          <Tabs defaultValue="content" className="space-y-6 md:space-y-8">
+            <div className="-mx-4 px-4 overflow-x-auto pb-2">
+              <TabsList className="inline-flex w-max h-auto flex-nowrap gap-1">
+                <TabsTrigger className="whitespace-nowrap text-xs sm:text-sm" value="content">Тексты</TabsTrigger>
+                <TabsTrigger className="whitespace-nowrap text-xs sm:text-sm" value="services">Услуги</TabsTrigger>
+                <TabsTrigger className="whitespace-nowrap text-xs sm:text-sm" value="features">Преимущества</TabsTrigger>
+                <TabsTrigger className="whitespace-nowrap text-xs sm:text-sm" value="contacts">Контакты</TabsTrigger>
+                <TabsTrigger className="whitespace-nowrap text-xs sm:text-sm" value="reviews">Отзывы</TabsTrigger>
+                <TabsTrigger className="whitespace-nowrap text-xs sm:text-sm" value="gallery">Галерея</TabsTrigger>
+                <TabsTrigger className="whitespace-nowrap text-xs sm:text-sm" value="faq">FAQ</TabsTrigger>
+              </TabsList>
+            </div>
 
             {/* Content Tab */}
             <TabsContent value="content" className="space-y-6">
