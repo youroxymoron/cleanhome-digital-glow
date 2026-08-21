@@ -9,6 +9,26 @@
   status = 200
 
 [[redirects]]
+  from = "/services"
+  to = "/services.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/:id"
+  to = "/services/:id.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/offer"
+  to = "/offer.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

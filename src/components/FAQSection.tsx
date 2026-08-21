@@ -7,30 +7,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { HelpCircle } from "lucide-react";
+import { DEFAULT_FAQS } from "@/lib/seo";
 
-const fallbackFaq = [
-  {
-    id: "1",
-    question: "Какой срок очистки?",
-    answer: "Сроки уточняются при звонке. Стандартная уборка квартиры занимает 2-4 часа.",
-    sort_order: 1,
-    is_active: true,
-  },
-  {
-    id: "2",
-    question: "Какие средства вы используете?",
-    answer: "Только экологичные и гипоаллергенные средства, безопасные для детей и животных.",
-    sort_order: 2,
-    is_active: true,
-  },
-  {
-    id: "3",
-    question: "Можно ли заказать срочную уборку?",
-    answer: "Да, возможен выезд в день обращения при наличии свободного слота.",
-    sort_order: 3,
-    is_active: true,
-  },
-];
+const fallbackFaq = DEFAULT_FAQS.map((item, index) => ({ ...item, sort_order: index + 1, is_active: true }));
 
 const FAQSection = () => {
   const { data: faqItems, isLoading } = useFaq();

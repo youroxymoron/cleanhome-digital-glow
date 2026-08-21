@@ -50,8 +50,9 @@ const ServicePage = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title={`${service.title} — Clean House Донецк`}
-        description={service.description}
+        title={`${service.title} в Донецке — цена | Clean House`}
+        description={`${service.description} Стоимость: ${service.price}. Закажите услугу Clean House в Донецке и ДНР.`}
+        keywords={`${service.title}, клининг Донецк, уборка Донецк, Clean House`}
         image={service.image_url || undefined}
         type="service"
       />

@@ -76,6 +76,16 @@ const HeroSection = () => {
               ))}
             </div>
 
+            {/* USP */}
+            <div className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mb-8">
+              <span className="inline-flex items-center gap-2 bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-full text-sm font-medium">
+                Уборка от 150 ₽/м² — выезд в день обращения
+              </span>
+              <Button size="sm" variant="ghost" asChild className="text-primary hover:text-primary">
+                <a href="#services">Все услуги <ArrowRight className="w-4 h-4 ml-1" /></a>
+              </Button>
+            </div>
+
             {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

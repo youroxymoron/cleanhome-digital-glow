@@ -8,10 +8,11 @@ const Offer = () => {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Договор публичной оферты — Clean House"
-        description="Публичная оферта клининговой компании Clean House. Условия заказа, оплата, сроки, гарантии."
-        keywords="договор оферты, публичная оферта, клининг Донецк, условия заказа, оплата уборки"
+        description="Условия заказа, оплаты и оказания клининговых услуг компанией Clean House в Донецке."
+        keywords="публичная оферта Clean House, условия клининговых услуг"
+        type="article"
       />
-      <StructuredData pageType="home" />
+      <StructuredData pageType="offer" />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">

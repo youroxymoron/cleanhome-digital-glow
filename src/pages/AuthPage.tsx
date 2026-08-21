@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import SEOHead from "@/components/SEOHead";
 
 const credentialsSchema = z.object({
   email: z.string().trim().email({ message: "Некорректный email" }).max(255),
@@ -21,7 +22,7 @@ const AuthPage = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,32 +38,6 @@ const AuthPage = () => {
     }
 
     setIsLoading(true);
-
-    if (isSignUp) {
-      const { error } = await supabase.auth.signUp({
-        email: parsed.data.email,
-        password: parsed.data.password,
-        options: { emailRedirectTo: `${window.location.origin}/auth` },
-      });
-      setIsLoading(false);
-
-      if (error) {
-        toast({
-          title: "Не удалось создать аккаунт",
-          description: "Проверьте данные или попробуйте войти",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      toast({
-        title: "Аккаунт создан",
-        description:
-          "Права администратора выдаются владельцем сайта отдельно.",
-      });
-      setIsSignUp(false);
-      return;
-    }
 
     const { error } = await supabase.auth.signInWithPassword({
       email: parsed.data.email,
@@ -84,6 +59,8 @@ const AuthPage = () => {
 
 
   return (
+    <>
+    <SEOHead title="Вход — Clean House" description="Служебная страница Clean House." robots="noindex, nofollow" />
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md border-border">
         <CardHeader className="text-center">
@@ -91,7 +68,7 @@ const AuthPage = () => {
             <Lock className="w-6 h-6 text-primary-foreground" />
           </div>
           <CardTitle>
-            {isSignUp ? "Регистрация" : "Вход в панель управления"}
+            Вход в панель управления
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -115,7 +92,7 @@ const AuthPage = () => {
               </label>
               <Input
                 type="password"
-                autoComplete={isSignUp ? "new-password" : "current-password"}
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 maxLength={72}
@@ -125,23 +102,13 @@ const AuthPage = () => {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading
                 ? "Подождите..."
-                : isSignUp
-                  ? "Создать аккаунт"
-                  : "Войти"}
+                : "Войти"}
             </Button>
-            <button
-              type="button"
-              onClick={() => setIsSignUp((v) => !v)}
-              className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {isSignUp
-                ? "У меня уже есть аккаунт"
-                : "Создать новый аккаунт"}
-            </button>
           </form>
         </CardContent>
       </Card>
     </div>
+    </>
   );
 };
 

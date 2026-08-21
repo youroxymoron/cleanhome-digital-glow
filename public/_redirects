@@ -1,3 +1,7 @@
 /images/* /images/:splat 200
 /assets/* /assets/:splat 200
+/services /services.html 200
+/services/:id /services/:id.html 200
+/privacy /privacy.html 200
+/offer /offer.html 200
 /* /index.html 200

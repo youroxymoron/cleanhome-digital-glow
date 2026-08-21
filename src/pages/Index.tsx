@@ -9,12 +9,18 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
+import { useFaq } from "@/hooks/useFaq";
+import { useReviews } from "@/hooks/useReviews";
+import { DEFAULT_FAQS } from "@/lib/seo";
 
 const Index = () => {
+  const { data: faqs } = useFaq();
+  const { data: reviews } = useReviews();
+
   return (
     <div className="min-h-screen bg-background">
       <SEOHead />
-      <StructuredData pageType="home" />
+      <StructuredData pageType="home" faqs={faqs?.length ? faqs : DEFAULT_FAQS} reviews={reviews || []} />
       <Header />
       <main>
         <section id="hero">

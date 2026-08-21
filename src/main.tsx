@@ -1,4 +1,5 @@
-import { createRoot } from "react-dom/client";
+import { hydrateRoot } from "react-dom/client";
+import type { DehydratedState } from "@tanstack/react-query";
 import App from "./App.tsx";
 import "./index.css";
 
@@ -11,34 +12,7 @@ declare global {
   }
 }
 
-function initAnalytics() {
-  const ymId = import.meta.env.VITE_YANDEX_METRIKA_ID;
-  if (ymId) {
-    const script = document.createElement("script");
-    script.innerHTML = `
-      (function(m,e,t,y){
-        m['yacounters']=m['yacounters']||{};
-        m['yacounters'][y]={init:function(){(m['yacounters'][y].a=m['yacounters'][y].a||[]).push(arguments)}};
-        m['yacounters'][y].init({
-          clickmap:true,
-          trackLinks:true,
-          accurateTrackBounce:true,
-          webvisor:true
-        });
-        var n=e.getElementsByTagName(t)[0];
-        var a=e.createElement(t);
-        a.async=true;
-        a.src="https://mc.yandex.ru/metrika/tag.js";
-        n.parentNode.insertBefore(a,n);
-      })(window,document,"script","${ymId}");
-    `;
-    document.head.appendChild(script);
-
-    const noscript = document.createElement("noscript");
-    noscript.innerHTML = `<div><img src="https://mc.yandex.ru/watch/${ymId}" style="position:absolute;left:-9999px" alt="" /></div>`;
-    document.body.appendChild(noscript);
-  }
-
+function initVkPixel() {
   const vkId = import.meta.env.VITE_VK_PIXEL_ID;
   if (vkId) {
     const script = document.createElement("script");
@@ -54,6 +28,15 @@ function initAnalytics() {
   }
 }
 
-initAnalytics();
+initVkPixel();
 
-createRoot(document.getElementById("root")!).render(<App />);
+declare global {
+  interface Window {
+    __REACT_QUERY_STATE__?: DehydratedState;
+  }
+}
+
+hydrateRoot(
+  document.getElementById("root")!,
+  <App dehydratedState={window.__REACT_QUERY_STATE__} />,
+);

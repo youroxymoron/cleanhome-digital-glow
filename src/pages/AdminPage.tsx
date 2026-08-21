@@ -913,7 +913,7 @@ function ServiceCard({ service, onEdit, onDelete }: { service: Service; onEdit: 
 
   return (
     <Card className={!service.is_active ? "opacity-50" : ""}>
-      <CardContent className="p-4 flex items-center gap-4">
+      <CardContent className="p-4 flex flex-wrap items-center gap-3">
         <GripVertical className="w-5 h-5 text-muted-foreground cursor-grab" />
         <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center flex-shrink-0">
           <IconComponent className="w-5 h-5 text-primary-foreground" />
@@ -964,7 +964,7 @@ function FeatureEditor({ feature, onSave, onCancel }: FeatureEditorProps) {
             rows={2}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">Иконка</label>
             <Select
@@ -1023,7 +1023,7 @@ function FeatureCard({ feature, onEdit, onDelete }: { feature: Feature; onEdit: 
 
   return (
     <Card className={!feature.is_active ? "opacity-50" : ""}>
-      <CardContent className="p-4 flex items-center gap-4">
+      <CardContent className="p-4 flex flex-wrap items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center flex-shrink-0">
           <IconComponent className="w-5 h-5 text-primary-foreground" />
         </div>
@@ -1100,7 +1100,7 @@ function ContactEditor({ contact, onSave, onCancel }: ContactEditorProps) {
             </Select>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">Иконка</label>
             <Select
@@ -1159,7 +1159,7 @@ function ContactCard({ contact, onEdit, onDelete }: { contact: Contact; onEdit: 
 
   return (
     <Card className={!contact.is_active ? "opacity-50" : ""}>
-      <CardContent className="p-4 flex items-center gap-4">
+      <CardContent className="p-4 flex flex-wrap items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center flex-shrink-0">
           <IconComponent className="w-5 h-5 text-primary-foreground" />
         </div>
@@ -1228,7 +1228,7 @@ function ReviewEditor({ review, onSave, onCancel }: ReviewEditorProps) {
             rows={4}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">Порядок</label>
             <Input
@@ -1264,7 +1264,7 @@ function ReviewEditor({ review, onSave, onCancel }: ReviewEditorProps) {
 function ReviewCard({ review, onEdit, onDelete }: { review: Review; onEdit: () => void; onDelete: () => void }) {
   return (
     <Card className={!review.is_active ? "opacity-50" : ""}>
-      <CardContent className="p-4 flex items-center gap-4">
+      <CardContent className="p-4 flex flex-wrap items-center gap-3">
         <div className="flex items-center text-primary">
           {Array.from({ length:5 }).map((_, i) => (
             <Star key={i} className={`w-4 h-4 ${i < review.rating ? "fill-primary text-primary" : "text-muted/30"}`} />
@@ -1327,7 +1327,7 @@ function GalleryEditor({ item, onSave, onCancel }: GalleryEditorProps) {
             folder="gallery"
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">Порядок</label>
             <Input
@@ -1363,7 +1363,7 @@ function GalleryEditor({ item, onSave, onCancel }: GalleryEditorProps) {
 function GalleryCard({ item, onEdit, onDelete }: { item: GalleryItem; onEdit: () => void; onDelete: () => void }) {
   return (
     <Card className={!item.is_active ? "opacity-50" : ""}>
-      <CardContent className="p-4 flex items-center gap-4">
+      <CardContent className="p-4 flex flex-wrap items-center gap-3">
         <div className="flex gap-2 flex-shrink-0">
           {item.before_image_url && (
             <img src={item.before_image_url} alt="До" className="w-12 h-12 object-cover rounded" />
@@ -1417,7 +1417,7 @@ function FaqEditor({ faq, onSave, onCancel }: FaqEditorProps) {
             rows={4}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">Порядок</label>
             <Input

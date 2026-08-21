@@ -8,10 +8,11 @@ const PrivacyPolicy = () => {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Политика конфиденциальности — Clean House"
-        description="Политика конфиденциальности персональных данных клининговой компании Clean House. Обработка данных в соответствии с 152-ФЗ."
-        keywords="политика конфиденциальности, персональные данные, 152-ФЗ, обработка данных, клининг Донецк"
+        description="Политика обработки и защиты персональных данных на сайте клининговой компании Clean House."
+        keywords="политика конфиденциальности Clean House, обработка персональных данных"
+        type="article"
       />
-      <StructuredData pageType="home" />
+      <StructuredData pageType="privacy" />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
