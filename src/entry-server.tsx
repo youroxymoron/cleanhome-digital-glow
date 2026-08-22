@@ -3,18 +3,17 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import App from "./App";
 import { supabase } from "./integrations/supabase/client";
 import { buildStructuredData, DEFAULT_FAQS, getSeoMetadata, SeoService } from "./lib/seo";
-import type { Database } from "./integrations/supabase/types";
 
-type TableName = keyof Database["public"]["Tables"] & string;
-
-async function fetchActiveTable(table: TableName) {
-  const { data, error } = await supabase
-    .from(table)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function fetchActiveTable(table: string): Promise<any[]> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const query = supabase.from(table as never) as any;
+  const { data, error } = await query
     .select("*")
     .eq("is_active", true)
     .order("sort_order");
   if (error) throw error;
-  return data;
+  return data ?? [];
 }
 
 async function fetchSiteContent(blockKey: string) {
