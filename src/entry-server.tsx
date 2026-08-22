@@ -3,7 +3,6 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import App from "./App";
 import { supabase } from "./integrations/supabase/client";
 import { buildStructuredData, DEFAULT_FAQS, getSeoMetadata, SeoService } from "./lib/seo";
-import type { Database } from "./integrations/supabase/types";
 
 async function fetchActiveTable(table: string) {
   const { data, error } = await supabase
