@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_submission_limits: {
+        Row: {
+          ip_hash: string
+          last_submission_at: string | null
+          last_submission_hash: string | null
+          request_count: number
+          updated_at: string
+          window_started_at: string
+        }
+        Insert: {
+          ip_hash: string
+          last_submission_at?: string | null
+          last_submission_hash?: string | null
+          request_count?: number
+          updated_at?: string
+          window_started_at?: string
+        }
+        Update: {
+          ip_hash?: string
+          last_submission_at?: string | null
+          last_submission_hash?: string | null
+          request_count?: number
+          updated_at?: string
+          window_started_at?: string
+        }
+        Relationships: []
+      }
       contacts: {
         Row: {
           contact_type: string
@@ -280,12 +307,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_contact_submission_rate: {
+        Args: { p_ip_hash: string; p_submission_hash: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      mark_contact_submission_delivered: {
+        Args: { p_ip_hash: string; p_submission_hash: string }
+        Returns: undefined
       }
     }
     Enums: {
