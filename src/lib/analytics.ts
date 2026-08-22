@@ -12,7 +12,7 @@ export function reachYandexGoal(goalId: string, params?: Record<string, unknown>
 }
 
 export function reachVkGoal(event: string, goalId?: string) {
-  const vk = (window as Record<string, unknown>).VK as
+  const vk = (window as unknown as Record<string, unknown>).VK as
     | { Go?: (payload?: Record<string, unknown>) => void }
     | undefined;
 

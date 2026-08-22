@@ -53,7 +53,7 @@ const FAQSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Accordion type="default" className="space-y-4">
+            <Accordion type="multiple" className="space-y-4">
               {displayItems.slice(0, 8).map((item, index) => (
                 <motion.div
                   key={item.id}
