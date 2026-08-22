@@ -28,7 +28,10 @@ async function fetchSiteContent(blockKey: string) {
 }
 
 async function prefetchPublicData(queryClient: QueryClient, pathname: string) {
-  const tasks: Promise<unknown>[] = [];
+  const tasks: Promise<unknown>[] = [
+    queryClient.prefetchQuery({ queryKey: ["contacts"], queryFn: () => fetchActiveTable("contacts") }),
+    queryClient.prefetchQuery({ queryKey: ["site_content", "footer"], queryFn: () => fetchSiteContent("footer") }),
+  ];
   const needsServices = pathname === "/" || pathname === "/services" || pathname.startsWith("/services/");
 
   if (needsServices) {
@@ -41,6 +44,7 @@ async function prefetchPublicData(queryClient: QueryClient, pathname: string) {
       queryClient.prefetchQuery({ queryKey: ["reviews"], queryFn: () => fetchActiveTable("reviews") }),
       queryClient.prefetchQuery({ queryKey: ["gallery_items"], queryFn: () => fetchActiveTable("gallery_items") }),
       queryClient.prefetchQuery({ queryKey: ["site_content", "stats"], queryFn: () => fetchSiteContent("stats") }),
+      queryClient.prefetchQuery({ queryKey: ["site_content", "contacts_header"], queryFn: () => fetchSiteContent("contacts_header") }),
     );
   }
 
@@ -63,12 +67,13 @@ export async function render(url: string) {
   const fetchedFaqs = (queryClient.getQueryData(["faq_items"]) || []) as NonNullable<Parameters<typeof buildStructuredData>[0]["faqs"]>;
   const faqs = fetchedFaqs.length ? fetchedFaqs : DEFAULT_FAQS;
   const reviews = (queryClient.getQueryData(["reviews"]) || []) as Parameters<typeof buildStructuredData>[0]["reviews"];
+  const contacts = (queryClient.getQueryData(["contacts"]) || []) as Parameters<typeof buildStructuredData>[0]["contacts"];
   const state = dehydrate(queryClient);
 
   return {
     html: renderToString(<App location={pathname} queryClient={queryClient} dehydratedState={state} />),
     state,
     seo: getSeoMetadata(pathname, currentService),
-    schemas: buildStructuredData({ pathname, services, currentService, faqs, reviews }),
+    schemas: buildStructuredData({ pathname, services, currentService, faqs, reviews, contacts }),
   };
 }

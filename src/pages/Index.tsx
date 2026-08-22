@@ -23,27 +23,13 @@ const Index = () => {
       <StructuredData pageType="home" faqs={faqs?.length ? faqs : DEFAULT_FAQS} reviews={reviews || []} />
       <Header />
       <main>
-        <section id="hero">
-          <HeroSection />
-        </section>
-        <section id="services" aria-label="Наши услуги">
-          <ServicesSection />
-        </section>
-        <section aria-label="Отзывы клиентов">
-          <ReviewsSection />
-        </section>
-        <section aria-label="Галерея работ">
-          <GallerySection />
-        </section>
-        <section id="about" aria-label="Почему мы">
-          <WhyUsSection />
-        </section>
-        <section aria-label="Вопросы и ответы">
-          <FAQSection />
-        </section>
-        <section id="contacts" aria-label="Контакты">
-          <ContactSection />
-        </section>
+        <HeroSection />
+        <ServicesSection />
+        <ReviewsSection />
+        <GallerySection />
+        <WhyUsSection />
+        <FAQSection />
+        <ContactSection />
       </main>
       <Footer />
     </div>

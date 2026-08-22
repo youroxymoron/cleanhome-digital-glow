@@ -1,15 +1,13 @@
 const getYmId = () => import.meta.env.VITE_YANDEX_METRIKA_ID;
 
-export function reachYandexGoal(goalId: string) {
+export function reachYandexGoal(goalId: string, params?: Record<string, unknown>) {
   const ymId = getYmId();
-  if (!ymId) return;
+  if (!ymId || typeof window === "undefined") return;
 
-  const counter = (window as Record<string, unknown>)[`yaCounter${ymId}`] as
-    | { reachGoal?: (id: string) => void }
-    | undefined;
+  const ym = (window as unknown as { ym?: (...args: unknown[]) => void }).ym;
 
-  if (typeof counter?.reachGoal === "function") {
-    counter.reachGoal(goalId);
+  if (typeof ym === "function") {
+    ym(Number(ymId), "reachGoal", goalId, params);
   }
 }
 

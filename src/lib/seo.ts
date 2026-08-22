@@ -23,6 +23,12 @@ export interface SeoReview {
   text: string;
 }
 
+export interface SeoContact {
+  id: string;
+  contact_type: string;
+  value: string;
+}
+
 export const DEFAULT_FAQS: SeoFaq[] = [
   { id: "default-duration", question: "Сколько времени занимает уборка?", answer: "Стандартная уборка квартиры обычно занимает 2–4 часа. Точный срок зависит от площади, состояния помещения и выбранных услуг." },
   { id: "default-products", question: "Какие средства вы используете?", answer: "Мы используем профессиональные средства и подбираем состав с учётом типа поверхности, а также наличия детей, животных или аллергии." },
@@ -82,21 +88,25 @@ function numericPrice(price: string) {
   return value ? Number(value.replace(",", ".")) : undefined;
 }
 
-export function buildStructuredData({ pathname, services = [], currentService, faqs = [], reviews = [] }: {
+export function buildStructuredData({ pathname, services = [], currentService, faqs = [], reviews = [], contacts = [] }: {
   pathname: string;
   services?: SeoService[];
   currentService?: SeoService;
   faqs?: SeoFaq[];
   reviews?: SeoReview[];
+  contacts?: SeoContact[];
 }) {
   const schemas: Record<string, unknown>[] = [];
   const validReviews = reviews.filter((review) => review.rating >= 1 && review.rating <= 5);
   const averageRating = validReviews.length ? validReviews.reduce((sum, review) => sum + review.rating, 0) / validReviews.length : undefined;
+  const phones = contacts.filter((contact) => contact.contact_type === "phone").map((contact) => contact.value);
+  const email = contacts.find((contact) => contact.contact_type === "email")?.value;
+  const address = contacts.find((contact) => contact.contact_type === "address")?.value;
   const business: Record<string, unknown> = {
     "@context": "https://schema.org", "@type": "LocalBusiness", "@id": `${SITE_URL}/#organization`,
     name: "Clean House", description: "Профессиональные услуги клининга в Донецке и ДНР.", url: `${SITE_URL}/`,
-    telephone: ["+7 949 501-57-51", "+7 988 585-26-94"], email: "info@cleanhousednr.ru",
-    address: { "@type": "PostalAddress", addressLocality: "Донецк", addressRegion: "ДНР", addressCountry: "RU" },
+    telephone: phones.length ? phones : ["+7 949 501-57-51", "+7 949 376-38-97"], email: email || "info@cleanhousednr.ru",
+    address: { "@type": "PostalAddress", streetAddress: address || undefined, addressLocality: "Донецк", addressRegion: "ДНР", addressCountry: "RU" },
     areaServed: ["Донецк", "Донецкая Народная Республика"],
     openingHoursSpecification: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], opens: "08:00", closes: "20:00" },
     priceRange: "₽₽", currenciesAccepted: "RUB", image: DEFAULT_IMAGE,

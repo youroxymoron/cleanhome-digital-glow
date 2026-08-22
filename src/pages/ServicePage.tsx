@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
+import { reachYandexGoal } from "@/lib/analytics";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, Building2, Sofa, SprayCan, Sparkles, HardHat
@@ -62,6 +63,7 @@ const ServicePage = () => {
         <div className="container mx-auto px-4">
           {/* Back Link */}
           <Link
+            id="service-back-to-list"
             to="/services"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
           >
@@ -107,7 +109,7 @@ const ServicePage = () => {
               </div>
 
               <Button size="lg" asChild>
-                <Link to="/#contacts">Заказать услугу</Link>
+                <Link id="cta-service-order" data-ym-goal="service_order_click" to="/#contacts" onClick={() => reachYandexGoal("service_order_click", { placement: "service_page", service_id: service.id })}>Заказать услугу</Link>
               </Button>
             </motion.div>
 

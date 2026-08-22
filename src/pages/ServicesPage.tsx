@@ -14,6 +14,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
+import { reachYandexGoal } from "@/lib/analytics";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, Building2, Sofa, SprayCan, Sparkles, HardHat, Waves, BedDouble, 
@@ -49,7 +50,7 @@ const ServicesPage = () => {
       />
       <StructuredData pageType="services" services={services || []} />
       <Header />
-      <main className="pt-24 pb-16">
+      <main id="services-page" className="pt-24 pb-16">
         <div className="container mx-auto px-4">
           {/* Header */}
           <motion.div
@@ -105,7 +106,10 @@ const ServicesPage = () => {
                           >
                             <td className="py-4 px-4">
                               <Link 
+                                id={`services-page-service-${service.id}`}
+                                data-ym-goal="service_detail_click"
                                 to={`/services/${service.id}`}
+                                onClick={() => reachYandexGoal("service_detail_click", { placement: "services_page", service_id: service.id })}
                                 className="flex items-center gap-3 group"
                               >
                                 <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
@@ -142,7 +146,7 @@ const ServicesPage = () => {
               Не нашли нужную услугу? Свяжитесь с нами!
             </p>
             <Button size="lg" asChild>
-              <Link to="/#contacts">
+              <Link id="cta-services-page-contact" data-ym-goal="contact_cta_click" to="/#contacts" onClick={() => reachYandexGoal("contact_cta_click", { placement: "services_page" })}>
                 Связаться с нами
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>

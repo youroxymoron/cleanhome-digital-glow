@@ -46,13 +46,13 @@ for (const route of [...new Set(routes)]) {
   const output = template
     .replace(/<!--default-seo-start-->[\s\S]*?<!--default-seo-end-->/, createHead(result.seo, result.schemas))
     .replace('<div id="root"></div>', `<div id="root">${result.html}</div>${stateScript}`);
-  const outputPaths = route === "/"
-    ? [join(distDir, "index.html")]
-    : [join(distDir, `${route.slice(1)}.html`), join(distDir, route.slice(1), "index.html")];
-  for (const outputPath of outputPaths) {
-    await mkdir(dirname(outputPath), { recursive: true });
-    await writeFile(outputPath, output, "utf8");
-  }
+  const outputPath = route === "/"
+    ? join(distDir, "index.html")
+    : route.startsWith("/services/")
+      ? join(distDir, "_prerender", "services", `${route.split("/").pop()}.html`)
+      : join(distDir, `${route.slice(1)}.html`);
+  await mkdir(dirname(outputPath), { recursive: true });
+  await writeFile(outputPath, output, "utf8");
   console.log(`Prerendered ${route}`);
 }
 

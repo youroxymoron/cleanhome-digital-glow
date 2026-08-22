@@ -1,9 +1,18 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getDisplayContacts, useContacts } from "@/hooks/useContacts";
+import { FooterContent, useSiteContent } from "@/hooks/useSiteContent";
+import { reachYandexGoal } from "@/lib/analytics";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = { Phone, Mail, MapPin, Clock };
 
 const Footer = () => {
+  const { data: contacts } = useContacts();
+  const { data: footerContent } = useSiteContent<FooterContent>("footer");
+  const displayContacts = getDisplayContacts(contacts);
+
   return (
-    <footer className="bg-foreground text-background py-16">
+    <footer id="footer" className="bg-foreground text-background py-16">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Brand */}
@@ -15,8 +24,7 @@ const Footer = () => {
               <span className="font-bold text-xl">Clean House</span>
             </div>
             <p className="text-background/70 mb-4">
-              Профессиональный клининг для вашего дома и офиса. 
-              Работаем в Донецке и ДНР.
+              {footerContent?.description || "Профессиональный клининг для вашего дома и офиса. Работаем в Донецке и ДНР."}
             </p>
           </div>
 
@@ -24,10 +32,10 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-lg mb-4">Услуги</h4>
             <ul className="space-y-2 text-background/70">
-              <li><a href="#services" className="hover:text-primary transition-colors">Уборка квартир</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Уборка офисов</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Химчистка мебели</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Уборка после ремонта</a></li>
+              <li><a id="footer-service-cleaning" href="/services" className="hover:text-primary transition-colors">Уборка квартир</a></li>
+              <li><a id="footer-service-offices" href="/services" className="hover:text-primary transition-colors">Уборка офисов</a></li>
+              <li><a id="footer-service-furniture" href="/services" className="hover:text-primary transition-colors">Химчистка мебели</a></li>
+              <li><a id="footer-service-renovation" href="/services" className="hover:text-primary transition-colors">Уборка после ремонта</a></li>
             </ul>
           </div>
 
@@ -35,32 +43,18 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-lg mb-4">Контакты</h4>
             <ul className="space-y-3 text-background/70">
-              <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4" />
-                <a href="tel:+79495015751" className="hover:text-primary transition-colors">
-                  +7 949 501 57 51
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4" />
-                <a href="tel:+79885852694" className="hover:text-primary transition-colors">
-                  +7 988 585 26 94
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                <a href="mailto:info@cleanhousednr.ru" className="hover:text-primary transition-colors">
-                  info@cleanhousednr.ru
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                <span>г. Донецк, ДНР</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                <span>Пн–Сб: 8:00–20:00</span>
-              </li>
+              {displayContacts.map((contact) => {
+                const Icon = iconMap[contact.icon] || iconMap[contact.contact_type === "email" ? "Mail" : contact.contact_type === "address" ? "MapPin" : contact.contact_type === "hours" ? "Clock" : "Phone"];
+                const goal = contact.contact_type === "phone" ? "phone_click" : contact.contact_type === "email" ? "email_click" : "contact_link_click";
+                return (
+                  <li key={contact.id} className="flex items-center gap-2">
+                    <Icon className="w-4 h-4" />
+                    {contact.href && contact.href !== "#" ? (
+                      <a id={`footer-contact-${contact.id}`} data-ym-goal={goal} href={contact.href} onClick={() => reachYandexGoal(goal, { placement: "footer", contact_id: contact.id })} className="hover:text-primary transition-colors">{contact.value}</a>
+                    ) : <span id={`footer-info-${contact.id}`}>{contact.value}</span>}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
@@ -72,10 +66,10 @@ const Footer = () => {
               Долгие Былы, Комсомольское, Трещётск, Горловка (по договорённости).
             </p>
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-              <Link to="/privacy" className="text-background/60 hover:text-primary transition-colors text-sm">
+              <Link id="footer-privacy" to="/privacy" className="text-background/60 hover:text-primary transition-colors text-sm">
                 Политика конфиденциальности
               </Link>
-              <Link to="/offer" className="text-background/60 hover:text-primary transition-colors text-sm">
+              <Link id="footer-offer" to="/offer" className="text-background/60 hover:text-primary transition-colors text-sm">
                 Договор публичной оферты
               </Link>
             </div>

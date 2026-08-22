@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Local audit/build artifacts
+tmp/
+supabase/.temp/
+release/*.zip
+audit.txt
+extract_pdf.py
+Аудит сайта*.pdf
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

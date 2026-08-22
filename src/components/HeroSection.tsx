@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Sparkles, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSiteContent, StatsContent } from "@/hooks/useSiteContent";
+import { reachYandexGoal } from "@/lib/analytics";
 
 const heroImage = "/images/hero-clean-home.jpg";
 
@@ -21,7 +22,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen pt-20 overflow-hidden bg-gradient-hero">
+    <section id="hero" aria-labelledby="hero-heading" className="relative min-h-screen pt-20 overflow-hidden bg-gradient-hero">
       {/* Background Decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
@@ -47,7 +48,7 @@ const HeroSection = () => {
               Профессиональный клининг в Донецке
             </motion.div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
+            <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
               Чистота и{" "}
               <span className="text-transparent bg-clip-text bg-gradient-primary">
                 свежесть
@@ -82,7 +83,7 @@ const HeroSection = () => {
                 Уборка от 150 ₽/м² — выезд в день обращения
               </span>
               <Button size="sm" variant="ghost" asChild className="text-primary hover:text-primary">
-                <a href="#services">Все услуги <ArrowRight className="w-4 h-4 ml-1" /></a>
+                <a id="cta-hero-all-services" data-ym-goal="services_cta_click" href="#services" onClick={() => reachYandexGoal("services_cta_click", { placement: "hero_usp" })}>Все услуги <ArrowRight className="w-4 h-4 ml-1" /></a>
               </Button>
             </div>
 
@@ -94,13 +95,13 @@ const HeroSection = () => {
               className="flex flex-wrap gap-4 justify-center lg:justify-start"
             >
               <Button size="lg" asChild className="group">
-                <a href="#contacts">
+                <a id="cta-hero-order" data-ym-goal="contact_cta_click" href="#contacts" onClick={() => reachYandexGoal("contact_cta_click", { placement: "hero_primary" })}>
                   Заказать уборку
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="#services">Наши услуги</a>
+                <a id="cta-hero-services" data-ym-goal="services_cta_click" href="#services" onClick={() => reachYandexGoal("services_cta_click", { placement: "hero_secondary" })}>Наши услуги</a>
               </Button>
             </motion.div>
           </motion.div>

@@ -12,6 +12,18 @@ export interface Contact {
   is_active: boolean;
 }
 
+export const DEFAULT_CONTACTS: Contact[] = [
+  { id: "default-phone-primary", contact_type: "phone", label: "Телефон", value: "+7 949 501 57 51", href: "tel:+79495015751", icon: "Phone", sort_order: 1, is_active: true },
+  { id: "default-phone-secondary", contact_type: "phone", label: "Второй телефон", value: "+7 949 376 38 97", href: "tel:+79493763897", icon: "Phone", sort_order: 2, is_active: true },
+  { id: "default-email", contact_type: "email", label: "Email", value: "info@cleanhousednr.ru", href: "mailto:info@cleanhousednr.ru", icon: "Mail", sort_order: 3, is_active: true },
+  { id: "default-address", contact_type: "address", label: "Адрес", value: "г. Донецк, ДНР", href: null, icon: "MapPin", sort_order: 4, is_active: true },
+  { id: "default-hours", contact_type: "hours", label: "Режим работы", value: "Пн–Сб: 8:00–20:00", href: null, icon: "Clock", sort_order: 5, is_active: true },
+];
+
+export function getDisplayContacts(contacts?: Contact[]) {
+  return contacts?.length ? contacts : DEFAULT_CONTACTS;
+}
+
 export function useContacts() {
   return useQuery({
     queryKey: ["contacts"],

@@ -1303,6 +1303,10 @@ function GalleryEditor({ item, onSave, onCancel }: GalleryEditorProps) {
   return (
     <Card className="border-primary">
       <CardContent className="p-6 space-y-4">
+        <p className="text-sm text-muted-foreground">
+          Если файл уже содержит готовый коллаж «ДО/ПОСЛЕ», загрузите его в первое поле,
+          а второе оставьте пустым.
+        </p>
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">Название</label>
           <Input
@@ -1374,7 +1378,9 @@ function GalleryCard({ item, onEdit, onDelete }: { item: GalleryItem; onEdit: ()
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-foreground">{item.title}</h3>
-          <p className="text-sm text-muted-foreground">ДО/ПОСЛЕ фото</p>
+          <p className="text-sm text-muted-foreground">
+            {item.before_image_url && !item.after_image_url ? "Готовый коллаж ДО/ПОСЛЕ" : "ДО/ПОСЛЕ фото"}
+          </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={onEdit}>

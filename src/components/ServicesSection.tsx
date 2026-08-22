@@ -30,6 +30,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { useServices, categoryLabels } from "@/hooks/useServices";
 import { Button } from "@/components/ui/button";
+import { reachYandexGoal } from "@/lib/analytics";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, Building2, Sofa, SprayCan, Sparkles, HardHat, Waves, BedDouble, 
@@ -52,7 +53,7 @@ const ServicesSection = () => {
   const categoryOrder = ['cleaning', 'dry_cleaning', 'windows'];
 
   return (
-    <section id="services" className="py-24 bg-background">
+    <section id="services" aria-labelledby="services-heading" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -64,7 +65,7 @@ const ServicesSection = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-medium mb-4">
             Наши услуги
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 id="services-heading" className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Полный спектр клининговых услуг
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -108,7 +109,7 @@ const ServicesSection = () => {
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.05 }}
                     >
-                      <Link to={`/services/${service.id}`}>
+                      <Link id={`service-card-${service.id}`} data-ym-goal="service_detail_click" to={`/services/${service.id}`} onClick={() => reachYandexGoal("service_detail_click", { placement: "home_services", service_id: service.id })}>
                         <Card className="group h-full hover:shadow-md transition-all duration-300 border-border hover:border-primary/30 cursor-pointer">
                           <CardContent className="p-4">
                             <div className="flex items-start gap-3">
@@ -144,7 +145,7 @@ const ServicesSection = () => {
           className="text-center mt-12"
         >
           <Button size="lg" asChild>
-            <a href="#contacts">
+            <a id="cta-services-order" data-ym-goal="contact_cta_click" href="#contacts" onClick={() => reachYandexGoal("contact_cta_click", { placement: "services_section" })}>
               Заказать услугу
               <ArrowRight className="w-4 h-4 ml-2" />
             </a>

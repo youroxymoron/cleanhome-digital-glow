@@ -2,16 +2,23 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "react-router-dom";
+import { getDisplayContacts, useContacts } from "@/hooks/useContacts";
+import { reachYandexGoal } from "@/lib/analytics";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const { data: contacts } = useContacts();
+  const phones = getDisplayContacts(contacts).filter((contact) => contact.contact_type === "phone").slice(0, 2);
+  const homeAnchor = (anchor: string) => location.pathname === "/" ? anchor : `/${anchor}`;
 
   const navItems = [
-    { label: "Главная", href: "#" },
-    { label: "Услуги", href: "#services" },
-    { label: "О нас", href: "#about" },
-    { label: "Цены", href: "#services" },
-    { label: "Контакты", href: "#contacts" },
+    { id: "home", label: "Главная", href: "/" },
+    { id: "services", label: "Услуги", href: homeAnchor("#services") },
+    { id: "about", label: "О нас", href: homeAnchor("#about") },
+    { id: "prices", label: "Цены", href: homeAnchor("#services") },
+    { id: "contacts", label: "Контакты", href: homeAnchor("#contacts") },
   ];
 
   return (
@@ -19,14 +26,11 @@ const Header = () => {
       {/* Mobile phone banner */}
       <div className="md:hidden bg-primary text-primary-foreground py-2 px-4">
         <div className="flex items-center justify-center gap-4 text-sm font-medium">
-          <a href="tel:+79495015751" className="flex items-center gap-1.5">
-            <Phone className="w-4 h-4" />
-            <span>+7 949 501 57 51</span>
-          </a>
-          <a href="tel:+79493763897" className="flex items-center gap-1.5">
-            <Phone className="w-4 h-4" />
-            <span>+7 949 376 38 97</span>
-          </a>
+          {phones.map((phone, index) => (
+            <a id={`header-mobile-phone-${index + 1}`} data-ym-goal="phone_click" key={phone.id} href={phone.href || undefined} onClick={() => reachYandexGoal("phone_click", { placement: "header_mobile", contact_id: phone.id })} className="flex items-center gap-1.5">
+              <Phone className="w-4 h-4" /><span>{phone.value}</span>
+            </a>
+          ))}
         </div>
       </div>
 
@@ -35,7 +39,7 @@ const Header = () => {
         <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2">
+          <a id="header-logo" href="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-lg">C</span>
             </div>
@@ -47,6 +51,7 @@ const Header = () => {
             {navItems.map((item) => (
               <a
                 key={item.label}
+                id={`nav-desktop-${item.id}`}
                 href={item.href}
                 className="text-muted-foreground hover:text-primary transition-colors font-medium"
               >
@@ -58,29 +63,21 @@ const Header = () => {
           {/* Phone & CTA */}
           <div className="hidden md:flex items-center gap-4">
             <div className="flex flex-col leading-tight">
-              <a
-                href="tel:+79495015751"
-                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="font-medium">+7 949 501 57 51</span>
-              </a>
-              <a
-                href="tel:+79493763897"
-                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="font-medium">+7 949 376 38 97</span>
-              </a>
+              {phones.map((phone, index) => (
+                <a id={`header-desktop-phone-${index + 1}`} data-ym-goal="phone_click" key={phone.id} href={phone.href || undefined} onClick={() => reachYandexGoal("phone_click", { placement: "header_desktop", contact_id: phone.id })} className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
+                  <Phone className="w-4 h-4" /><span className="font-medium">{phone.value}</span>
+                </a>
+              ))}
             </div>
             <Button asChild>
-              <a href="#contacts">Записаться</a>
+              <a id="cta-header-booking" data-ym-goal="contact_cta_click" href={homeAnchor("#contacts")} onClick={() => reachYandexGoal("contact_cta_click", { placement: "header_desktop" })}>Записаться</a>
             </Button>
           </div>
 
 
           {/* Mobile Menu Button */}
           <button
+            id="mobile-menu-toggle"
             className="md:hidden p-2 text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
@@ -101,6 +98,7 @@ const Header = () => {
                 {navItems.map((item) => (
                   <a
                     key={item.label}
+                    id={`nav-mobile-${item.id}`}
                     href={item.href}
                     className="text-foreground hover:text-primary transition-colors font-medium text-lg"
                     onClick={() => setIsMenuOpen(false)}
@@ -108,23 +106,14 @@ const Header = () => {
                     {item.label}
                   </a>
                 ))}
-                <a
-                  href="tel:+79495015751"
-                  className="flex items-center gap-2 text-primary font-medium"
-                >
-                  <Phone className="w-4 h-4" />
-                  +7 949 501 57 51
-                </a>
-                <a
-                  href="tel:+79493763897"
-                  className="flex items-center gap-2 text-primary font-medium"
-                >
-                  <Phone className="w-4 h-4" />
-                  +7 949 376 38 97
-                </a>
+                {phones.map((phone, index) => (
+                  <a id={`header-menu-phone-${index + 1}`} data-ym-goal="phone_click" key={phone.id} href={phone.href || undefined} onClick={() => reachYandexGoal("phone_click", { placement: "header_menu", contact_id: phone.id })} className="flex items-center gap-2 text-primary font-medium">
+                    <Phone className="w-4 h-4" />{phone.value}
+                  </a>
+                ))}
 
                 <Button asChild className="w-full mt-2">
-                  <a href="#contacts">Записаться</a>
+                  <a id="cta-header-mobile-booking" data-ym-goal="contact_cta_click" href={homeAnchor("#contacts")} onClick={() => reachYandexGoal("contact_cta_click", { placement: "header_mobile_menu" })}>Записаться</a>
                 </Button>
               </nav>
             </motion.div>
