@@ -7,7 +7,7 @@ import type { Database } from "./integrations/supabase/types";
 
 type TableName = keyof Database["public"]["Tables"];
 
-async function fetchActiveTable(table: TableName) {
+async function fetchActiveTable(table: string) {
   const { data, error } = await supabase
     .from(table)
     .select("*")
