@@ -5,8 +5,6 @@ import { supabase } from "./integrations/supabase/client";
 import { buildStructuredData, DEFAULT_FAQS, getSeoMetadata, SeoService } from "./lib/seo";
 import type { Database } from "./integrations/supabase/types";
 
-type TableName = keyof Database["public"]["Tables"];
-
 async function fetchActiveTable(table: string) {
   const { data, error } = await supabase
     .from(table)

@@ -36,6 +36,7 @@ const App = ({ location, queryClient = browserQueryClient, dehydratedState }: Ap
           <Toaster />
           <Sonner />
           <Router {...(location ? { location } : {})}>
+
             <YandexMetrika />
             <Routes>
               <Route path="/" element={<Index />} />
