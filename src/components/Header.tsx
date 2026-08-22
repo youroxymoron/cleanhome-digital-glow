@@ -24,11 +24,11 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* Mobile phone banner */}
-      <div className="md:hidden bg-primary text-primary-foreground py-2 px-4">
-        <div className="flex items-center justify-center gap-4 text-sm font-medium">
+      <div className="md:hidden bg-primary text-primary-foreground py-2.5 px-4">
+        <div className="flex flex-col items-center justify-center gap-1 text-lg font-semibold leading-tight">
           {phones.map((phone, index) => (
-            <a id={`header-mobile-phone-${index + 1}`} data-ym-goal="phone_click" key={phone.id} href={phone.href || undefined} onClick={() => reachYandexGoal("phone_click", { placement: "header_mobile", contact_id: phone.id })} className="flex items-center gap-1.5">
-              <Phone className="w-4 h-4" /><span>{phone.value}</span>
+            <a id={`header-mobile-phone-${index + 1}`} data-ym-goal="phone_click" key={phone.id} href={phone.href || undefined} onClick={() => reachYandexGoal("phone_click", { placement: "header_mobile", contact_id: phone.id })} className="flex items-center gap-2 py-0.5">
+              <Phone className="w-5 h-5" /><span>{phone.value}</span>
             </a>
           ))}
         </div>
@@ -107,8 +107,8 @@ const Header = () => {
                   </a>
                 ))}
                 {phones.map((phone, index) => (
-                  <a id={`header-menu-phone-${index + 1}`} data-ym-goal="phone_click" key={phone.id} href={phone.href || undefined} onClick={() => reachYandexGoal("phone_click", { placement: "header_menu", contact_id: phone.id })} className="flex items-center gap-2 text-primary font-medium">
-                    <Phone className="w-4 h-4" />{phone.value}
+                  <a id={`header-menu-phone-${index + 1}`} data-ym-goal="phone_click" key={phone.id} href={phone.href || undefined} onClick={() => reachYandexGoal("phone_click", { placement: "header_menu", contact_id: phone.id })} className="flex items-center gap-2 text-primary text-lg font-semibold">
+                    <Phone className="w-5 h-5" />{phone.value}
                   </a>
                 ))}
 
