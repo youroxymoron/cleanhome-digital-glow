@@ -45,12 +45,27 @@ const App = ({ location, queryClient = browserQueryClient, dehydratedState }: Ap
               />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </Router>
-        </EditModeProvider>
-      </AuthProvider>
-    </TooltipProvider>
-    </HydrationBoundary>
-  </QueryClientProvider>
+    </>
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <HydrationBoundary state={dehydratedState}>
+        <TooltipProvider>
+          <AuthProvider>
+            <EditModeProvider>
+              <Toaster />
+              <Sonner />
+              {location ? (
+                <StaticRouter location={location}>{content}</StaticRouter>
+              ) : (
+                <BrowserRouter>{content}</BrowserRouter>
+              )}
+            </EditModeProvider>
+          </AuthProvider>
+        </TooltipProvider>
+      </HydrationBoundary>
+    </QueryClientProvider>
   );
 };
 
