@@ -25,19 +25,10 @@ interface AppProps {
 }
 
 const App = ({ location, queryClient = browserQueryClient, dehydratedState }: AppProps) => {
-  const Router = location ? StaticRouter : BrowserRouter;
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <HydrationBoundary state={dehydratedState}>
-        <TooltipProvider>
-          <AuthProvider>
-            <EditModeProvider>
-              <Toaster />
-              <Sonner />
-              <Router {...(location ? ({ location } as { location?: string }) : {})}>
-                <YandexMetrika />
-            <Routes>
+  const content = (
+    <>
+      <YandexMetrika />
+      <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/services/:id" element={<ServicePage />} />
