@@ -3,8 +3,11 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import App from "./App";
 import { supabase } from "./integrations/supabase/client";
 import { buildStructuredData, DEFAULT_FAQS, getSeoMetadata, SeoService } from "./lib/seo";
+import type { Database } from "./integrations/supabase/types";
 
-async function fetchActiveTable(table: string) {
+type TableName = keyof Database["public"]["Tables"] & string;
+
+async function fetchActiveTable(table: TableName) {
   const { data, error } = await supabase
     .from(table)
     .select("*")
